@@ -1,6 +1,6 @@
 import { InitializedBuffers, ProgramInfo } from "./types";
-import {Matrix4} from "./math/Matrix4.ts";
-import {Vector3} from "./math/Vector3.ts";
+import { Matrix4 } from "./math/Matrix4.ts";
+import { Vector3 } from "./math/Vector3.ts";
 
 export function drawScene(gl: WebGLRenderingContext, programInfo: ProgramInfo, buffers: InitializedBuffers, texture: WebGLTexture, cubeRotation: number): void {
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -11,18 +11,16 @@ export function drawScene(gl: WebGLRenderingContext, programInfo: ProgramInfo, b
     const aspect: number = gl.canvas.width / gl.canvas.height;
 
     const translationMatrix: Matrix4 = Matrix4.CreateTranslation(new Vector3(0.0, 0.0, 0.0));
-    const rotationXMatrix: Matrix4 = Matrix4.CreateRotationX(0 * 0.3);
+    const rotationXMatrix: Matrix4 = Matrix4.CreateRotationX(cubeRotation * 0.3);
     const rotationYMatrix: Matrix4 = Matrix4.CreateRotationY(cubeRotation * 0.7);
-    const rotationZMatrix: Matrix4 = Matrix4.CreateRotationZ(0);
+    const rotationZMatrix: Matrix4 = Matrix4.CreateRotationZ(cubeRotation);
 
-    let modelMatrix: Matrix4 = Matrix4.Multiply(rotationXMatrix, rotationYMatrix);
-    modelMatrix = Matrix4.Multiply(modelMatrix, translationMatrix);
-    modelMatrix = Matrix4.Multiply(modelMatrix, rotationZMatrix);
-
-    const viewMatrix: Matrix4 = Matrix4.LookAt(new Vector3(0,0,5), new Vector3(0,0,0), Vector3.UnixY());
+    const viewMatrix: Matrix4 = Matrix4.LookAt(new Vector3(0, 0, 60), new Vector3(0, 0, 0), Vector3.UnixY());
     const projectionMatrix: Matrix4 = Matrix4.Perspective(fieldOfView, aspect, 0.1, 1000.0);
-    let normalMatrix: Matrix4 = Matrix4.Invert(viewMatrix);
-    normalMatrix = Matrix4.Transpose(normalMatrix);
+    let modelMatrix: Matrix4 = Matrix4.Multiply(rotationXMatrix, rotationYMatrix);
+    modelMatrix = Matrix4.Multiply(modelMatrix, rotationZMatrix);
+    modelMatrix = Matrix4.Multiply(modelMatrix, translationMatrix);
+    const normalMatrix: Matrix4 = Matrix4.Transpose(Matrix4.Invese(modelMatrix));
 
     setPositionAttribute(gl, programInfo, buffers);
     setTextureAttribute(gl, programInfo, buffers);

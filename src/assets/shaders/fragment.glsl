@@ -1,5 +1,4 @@
 varying highp vec2 vTextureCoord;
-varying highp vec3 vLighting;
 varying highp vec3 vFragPosition;
 varying highp vec3 vNormal;
 
@@ -10,17 +9,12 @@ precision highp float;
 void main(void) {
     highp vec4 texelColor = texture2D(uSampler, vTextureCoord);
 
-    // ambient
-    float ambientStrength = 0.1;
-    vec3 ambient = ambientStrength * vec3(0,10,0);
+    highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
+    highp vec3 directionalLightColor = vec3(1.5, 1.5, 1.5);
+    highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75) - vFragPosition);
 
-    // diffuse
-    vec3 norm = normalize(vNormal);
-    vec3 lightDir = normalize(vec3(0, 0, 10) - vFragPosition);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * vec3(10,0,0);
+    highp float directional = max(dot(normalize(vNormal), directionalVector), 0.0);
+    highp vec3 vLighting = ambientLight + (directionalLightColor * directional);
 
-    vec3 result = (ambient + diffuse) * (texelColor.rgb);
-
-    gl_FragColor = vec4(result, texelColor.a);
+    gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
 }

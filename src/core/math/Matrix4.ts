@@ -1,7 +1,6 @@
-import {Vector4} from "./Vector4.ts";
-import {Vector3} from "./Vector3.ts";
+import { Vector4 } from "./Vector4.ts";
+import { Vector3 } from "./Vector3.ts";
 import _ from "lodash";
-import {Epsilon} from "./costants.ts";
 
 export class Matrix4 {
     public Row0: Vector4;
@@ -58,24 +57,47 @@ export class Matrix4 {
         return _.cloneDeep<Matrix4>(this);
     }
 
+    public Determinant(): number {
+        const m11: number = this.Row0.X;
+        const m12: number = this.Row0.Y;
+        const m13: number = this.Row0.Z;
+        const m14: number = this.Row0.W;
+        const m21: number = this.Row1.X;
+        const m22: number = this.Row1.Y;
+        const m23: number = this.Row1.Z;
+        const m24: number = this.Row1.W;
+        const m31: number = this.Row2.X;
+        const m32: number = this.Row2.Y;
+        const m33: number = this.Row2.Z;
+        const m34: number = this.Row2.W;
+        const m41: number = this.Row3.X;
+        const m42: number = this.Row3.Y;
+        const m43: number = this.Row3.Z;
+        const m44: number = this.Row3.W;
+
+        return (m11 * m22 * m33 * m44) - (m11 * m22 * m34 * m43) + (m11 * m23 * m34 * m42) - (m11 * m23 * m32 * m44) 
+            + (m11 * m24 * m32 * m43) - (m11 * m24 * m33 * m42) - (m12 * m23 * m34 * m41) + (m12 * m23 * m31 * m44)
+            - (m12 * m24 * m31 * m43) + (m12 * m24 * m33 * m41) - (m12 * m21 * m33 * m44) + (m12 * m21 * m34 * m43)
+            + (m13 * m24 * m31 * m42)
+            - (m13 * m24 * m32 * m41) + (m13 * m21 * m32 * m44) - (m13 * m21 * m34 * m42)
+            + (m13 * m22 * m34 * m41) - (m13 * m22 * m31 * m44) - (m14 * m21 * m32 * m43) + (m14 * m21 * m33 * m42)
+            - (m14 * m22 * m33 * m41) + (m14 * m22 * m31 * m43) - (m14 * m23 * m31 * m42) + (m14 * m23 * m32 * m41);
+    }
+
     public static Perspective(fieldOfView: number, aspect: number, depthNear: number, depthFar: number): Matrix4 {
-        if (fieldOfView <= 0 || fieldOfView > Math.PI)
-        {
+        if (fieldOfView <= 0 || fieldOfView > Math.PI) {
             throw new Error("Wrong field of view");
         }
 
-        if (aspect <= 0)
-        {
+        if (aspect <= 0) {
             throw new Error("Wrong aspect ratio");
         }
 
-        if (depthNear <= 0)
-        {
+        if (depthNear <= 0) {
             throw new Error("Depth near must be greater then zero");
         }
 
-        if (depthFar <= 0)
-        {
+        if (depthFar <= 0) {
             throw new Error("Depth far must be greater then zero");
         }
 
@@ -101,7 +123,7 @@ export class Matrix4 {
     }
 
     public static LookAt(eye: Vector3, target: Vector3, up: Vector3): Matrix4 {
-        const z: Vector3 = Vector3.Normalize( Vector3.Substract(eye, target));
+        const z: Vector3 = Vector3.Normalize(Vector3.Substract(eye, target));
         const x: Vector3 = Vector3.Normalize(Vector3.Cross(up, z));
         const y: Vector3 = Vector3.Normalize(Vector3.Cross(z, x));
 
@@ -229,83 +251,70 @@ export class Matrix4 {
         return result;
     }
 
-    public static Invert(mat: Matrix4): Matrix4 {
-        const a: number = mat.Row0.X;
-        const b: number = mat.Row1.X;
-        const c: number = mat.Row2.X;
-        const d: number = mat.Row3.X;
-        const e: number = mat.Row0.Y;
-        const f: number = mat.Row1.Y;
-        const g: number = mat.Row2.Y;
-        const h: number = mat.Row3.Y;
-        const i: number = mat.Row0.Z;
-        const j: number = mat.Row1.Z;
-        const k: number = mat.Row2.Z;
-        const l: number = mat.Row3.Z;
-        const m: number = mat.Row0.W;
-        const n: number = mat.Row1.W;
-        const o: number = mat.Row2.W;
-        const p: number = mat.Row3.W;
+    public static Invese(mat: Matrix4): Matrix4 {
+        const a00: number = mat.Row0.X;
+        const a01: number = mat.Row0.Y;
+        const a02: number = mat.Row0.Z;
+        const a03: number = mat.Row0.W;
+        const a10: number = mat.Row1.X;
+        const a11: number = mat.Row1.Y;
+        const a12: number = mat.Row1.Z;
+        const a13: number = mat.Row1.W;
+        const a20: number = mat.Row2.X;
+        const a21: number = mat.Row2.Y;
+        const a22: number = mat.Row2.Z;
+        const a23: number = mat.Row2.W;
+        const a30: number = mat.Row3.X;
+        const a31: number = mat.Row3.Y;
+        const a32: number = mat.Row3.Z;
+        const a33: number = mat.Row3.W;
 
-        const kp_lo: number = k * p - l * o;
-        const jp_ln: number = j * p - l * n;
-        const jo_kn: number = j * o - k * n;
-        const ip_lm: number = i * p - l * m;
-        const io_km: number = i * o - k * m;
-        const in_jm: number = i * n - j * m;
+        const b00: number = a00 * a11 - a01 * a10;
+        const b01: number = a00 * a12 - a02 * a10;
+        const b02: number = a00 * a13 - a03 * a10;
+        const b03: number = a01 * a12 - a02 * a11;
+        const b04: number = a01 * a13 - a03 * a11;
+        const b05: number = a02 * a13 - a03 * a12;
+        const b06: number = a20 * a31 - a21 * a30;
+        const b07: number = a20 * a32 - a22 * a30;
+        const b08: number = a20 * a33 - a23 * a30;
+        const b09: number = a21 * a32 - a22 * a31;
+        const b10: number = a21 * a33 - a23 * a31;
+        const b11: number = a22 * a33 - a23 * a32;
 
-        const a11: number = +(f * kp_lo - g * jp_ln + h * jo_kn);
-        const a12: number = -(e * kp_lo - g * ip_lm + h * io_km);
-        const a13: number = +(e * jp_ln - f * ip_lm + h * in_jm);
-        const a14: number = -(e * jo_kn - f * io_km + g * in_jm);
+        let det: number = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
+        if (det == 0) throw new Error("Inverse error");
+        det = 1.0 / det;
 
-        const det: number = a * a11 + b * a12 + c * a13 + d * a14;
 
-        if (Math.abs(det) < Epsilon)
-        {
-            throw new Error("Matrix is singular and cannot be inverted.");
-        }
-
-        const invDet: number = 1.0 / det;
-
-        const row0: Vector4 = new Vector4(a11 * invDet, a12 * invDet, a13 * invDet, a14 * invDet);
-
-        const row1: Vector4 = new Vector4(
-            -(b * kp_lo - c * jp_ln + d * jo_kn) * invDet,
-            +(a * kp_lo - c * ip_lm + d * io_km) * invDet,
-            -(a * jp_ln - b * ip_lm + d * in_jm) * invDet,
-            +(a * jo_kn - b * io_km + c * in_jm) * invDet
+        let result: Matrix4 = new Matrix4(
+            new Vector4(
+                (a11 * b11 - a12 * b10 + a13 * b09) * det,
+                (a02 * b10 - a01 * b11 - a03 * b09) * det,
+                (a31 * b05 - a32 * b04 + a33 * b03) * det,
+                (a22 * b04 - a21 * b05 - a23 * b03) * det,
+            ),
+            new Vector4(
+                (a12 * b08 - a10 * b11 - a13 * b07) * det,
+                (a00 * b11 - a02 * b08 + a03 * b07) * det,
+                (a32 * b02 - a30 * b05 - a33 * b01) * det,
+                (a20 * b05 - a22 * b02 + a23 * b01) * det,
+            ),
+            new Vector4(
+                (a10 * b10 - a11 * b08 + a13 * b06) * det,
+                (a01 * b08 - a00 * b10 - a03 * b06) * det,
+                (a30 * b04 - a31 * b02 + a33 * b00) * det,
+                (a21 * b02 - a20 * b04 - a23 * b00) * det,
+            ),
+            new Vector4(
+                (a11 * b07 - a10 * b09 - a12 * b06) * det,
+                (a00 * b09 - a01 * b07 + a02 * b06) * det,
+                (a31 * b01 - a30 * b03 - a32 * b00) * det,
+                (a20 * b03 - a21 * b01 + a22 * b00) * det,
+            )
         );
 
-        const gp_ho: number = g * p - h * o;
-        const fp_hn: number = f * p - h * n;
-        const fo_gn: number = f * o - g * n;
-        const ep_hm: number = e * p - h * m;
-        const eo_gm: number = e * o - g * m;
-        const en_fm: number = e * n - f * m;
-
-        const row2: Vector4 = new Vector4(
-            +(b * gp_ho - c * fp_hn + d * fo_gn) * invDet,
-            -(a * gp_ho - c * ep_hm + d * eo_gm) * invDet,
-            +(a * fp_hn - b * ep_hm + d * en_fm) * invDet,
-            -(a * fo_gn - b * eo_gm + c * en_fm) * invDet
-        );
-
-        const gl_hk: number = g * l - h * k;
-        const fl_hj: number = f * l - h * j;
-        const fk_gj: number = f * k - g * j;
-        const el_hi: number = e * l - h * i;
-        const ek_gi: number = e * k - g * i;
-        const ej_fi: number = e * j - f * i;
-
-        const row3: Vector4 = new Vector4(
-            -(b * gl_hk - c * fl_hj + d * fk_gj) * invDet,
-            +(a * gl_hk - c * el_hi + d * ek_gi) * invDet,
-            -(a * fl_hj - b * el_hi + d * ej_fi) * invDet,
-            +(a * fk_gj - b * ek_gi + c * ej_fi) * invDet
-        );
-
-        return new Matrix4(row0, row1, row2, row3);
+        return result;
     }
 
     public static Transpose(matrix: Matrix4): Matrix4 {
