@@ -5,6 +5,11 @@ export type InitializedBuffers = {
     indices: WebGLBuffer,
 };
 
+export type shaderCodes = {
+    vertex: string,
+    fragment: string
+};
+
 export type ProgramInfo = {
     program: WebGLProgram,
     attribLocations: AttributeLocations,

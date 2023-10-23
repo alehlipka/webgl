@@ -1,27 +1,30 @@
 import {InitializedBuffers, ProgramInfo} from "./types.ts";
 import {Matrix4} from "./math/Matrix4.ts";
 import {Vector3} from "./math/Vector3.ts";
-import {initializeProgram} from "./shader.ts";
+import {Shader} from "./Shader.ts";
+
 import {initializeBuffers} from "./buffer.ts";
 import {loadTexture} from "./texture.ts";
-
-import vertexShaderCode from './../assets/shaders/vertex.glsl';
-import fragmentShaderCode from './../assets/shaders/fragment.glsl';
 import textureTest from "./../assets/textures/test.jpg";
 
 export class Renderer {
     private readonly gl: WebGLRenderingContext;
+    private readonly texture: WebGLTexture;
+    private readonly shader: Shader;
+
     private programInfo: ProgramInfo;
     private buffers: InitializedBuffers;
-    private readonly texture: WebGLTexture;
     private cubeRotation: number;
     private then: number;
 
-    constructor(gl: WebGLRenderingContext) {
+    constructor(gl: WebGLRenderingContext, shader: Shader) {
         this.gl = gl;
-        this.programInfo = this.initializeProgram(vertexShaderCode, fragmentShaderCode);
-        this.buffers = this.initializeBuffers();
+
         this.texture = this.loadTexture(textureTest);
+        this.shader = shader;
+
+        this.programInfo = this.shader.getProgramInfo();
+        this.buffers = this.initializeBuffers();
         this.cubeRotation = 0.0;
         this.then = 0;
     }
@@ -32,25 +35,6 @@ export class Renderer {
         this.drawScene();
         this.updateCubeRotation(deltaTime);
         requestAnimationFrame(this.render);
-    }
-
-    private initializeProgram(vertexShaderCode: string, fragmentShaderCode: string): ProgramInfo {
-        const shaderProgram: WebGLProgram = initializeProgram(this.gl, vertexShaderCode, fragmentShaderCode);
-        return {
-            program: shaderProgram,
-            attribLocations: {
-                vertexPosition: this.gl.getAttribLocation(shaderProgram, "aVertexPosition"),
-                vertexNormal: this.gl.getAttribLocation(shaderProgram, "aVertexNormal"),
-                textureCoords: this.gl.getAttribLocation(shaderProgram, "aTextureCoords"),
-            },
-            uniformLocations: {
-                projectionMatrix: this.gl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
-                modelMatrix: this.gl.getUniformLocation(shaderProgram, "uModelMatrix"),
-                viewMatrix: this.gl.getUniformLocation(shaderProgram, "uViewMatrix"),
-                normalMatrix: this.gl.getUniformLocation(shaderProgram, "uNormalMatrix"),
-                uSampler: this.gl.getUniformLocation(shaderProgram, "uSampler"),
-            },
-        };
     }
 
     private initializeBuffers(): InitializedBuffers {
@@ -76,9 +60,7 @@ export class Renderer {
 
         const viewMatrix: Matrix4 = Matrix4.LookAt(new Vector3(0, 0, 60), new Vector3(0, 0, 0), Vector3.UnixY());
         const projectionMatrix: Matrix4 = Matrix4.Perspective(fieldOfView, aspect, 0.1, 1000.0);
-        let modelMatrix: Matrix4 = Matrix4.Multiply(rotationXMatrix, rotationYMatrix);
-        modelMatrix = Matrix4.Multiply(modelMatrix, rotationZMatrix);
-        modelMatrix = Matrix4.Multiply(modelMatrix, translationMatrix);
+        const modelMatrix: Matrix4 = this.createModelMatrix(rotationXMatrix, rotationYMatrix, rotationZMatrix, translationMatrix);
         const normalMatrix: Matrix4 = Matrix4.Transpose(Matrix4.Invese(modelMatrix));
 
         this.setPositionAttribute();
@@ -98,6 +80,10 @@ export class Renderer {
         this.gl.uniform1i(this.programInfo.uniformLocations.uSampler, 0);
 
         this.gl.drawElements(this.gl.TRIANGLES, 36, this.gl.UNSIGNED_SHORT, 0);
+    }
+
+    private createModelMatrix(rotationXMatrix: Matrix4, rotationYMatrix: Matrix4, rotationZMatrix: Matrix4, translationMatrix: Matrix4): Matrix4 {
+        return Matrix4.Multiply(Matrix4.Multiply(Matrix4.Multiply(rotationXMatrix, rotationYMatrix), rotationZMatrix), translationMatrix);
     }
 
     private updateCubeRotation(deltaTime: number): void {
