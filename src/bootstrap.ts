@@ -3,17 +3,14 @@ import "./assets/styles/main.scss";
 import {initializeProgram} from "./core/shader.ts";
 import {InitializedBuffers, ProgramInfo} from "./core/types.ts";
 import {initializeBuffers} from "./core/buffer.ts";
-import {drawScene} from "./core/draw.ts";
 import {loadTexture} from "./core/texture.ts";
 
 import textureTest from "./assets/textures/test.jpg";
 import { Context } from "./core/Context.ts";
+import {Renderer} from "./core/Renderer.ts";
 
 const glContext: Context = new Context('gl-canvas');
-const gl = glContext.getContext();
-
-let cubeRotation: number = 0.0;
-let deltaTime: number = 0;
+const gl: WebGLRenderingContext = glContext.getContext();
 
 const shaderProgram: WebGLProgram = initializeProgram(gl);
 const programInfo: ProgramInfo = {
@@ -34,16 +31,5 @@ const programInfo: ProgramInfo = {
 const buffers: InitializedBuffers = initializeBuffers(gl);
 const texture: WebGLTexture = loadTexture(gl, textureTest);
 
-let then: number = 0;
-function render(now: number): void {
-    now *= 0.001; // convert to seconds
-    deltaTime = now - then;
-    then = now;
-
-    drawScene(gl, programInfo, buffers, texture, cubeRotation);
-    cubeRotation += deltaTime;
-
-    requestAnimationFrame(render);
-}
-
-requestAnimationFrame(render);
+const renderer: Renderer = new Renderer(gl, programInfo, buffers, texture);
+renderer.render(performance.now());
