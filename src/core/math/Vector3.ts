@@ -15,6 +15,7 @@ export class Vector3 {
     private static readonly unixY: Vector3 = new Vector3(0, 1, 0);
     private static readonly unixZ: Vector3 = new Vector3(0, 0, 1);
     private static readonly zero: Vector3 = new Vector3(0, 0, 0);
+    private static readonly one: Vector3 = new Vector3(1, 1, 1);
 
     public static UnixX(): Vector3 {
         return _.cloneDeep<Vector3>(Vector3.unixX);
@@ -30,6 +31,10 @@ export class Vector3 {
 
     public static Zero(): Vector3 {
         return _.cloneDeep<Vector3>(Vector3.zero);
+    }
+
+    public static One(): Vector3 {
+        return _.cloneDeep<Vector3>(Vector3.one);
     }
 
     public Length(): number {

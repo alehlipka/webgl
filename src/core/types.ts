@@ -16,6 +16,13 @@ export type ProgramInfo = {
     uniformLocations: UniformLocations,
 };
 
+export type perspectiveSettings = {
+    aspect: number,
+    fov: number,
+    near: number,
+    far: number,
+};
+
 type AttributeLocations = {
     vertexPosition: number,
     vertexNormal: number,
