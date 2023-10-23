@@ -1,29 +1,64 @@
 import {InitializedBuffers, ProgramInfo} from "./types.ts";
 import {Matrix4} from "./math/Matrix4.ts";
 import {Vector3} from "./math/Vector3.ts";
+import {initializeProgram} from "./shader.ts";
+import {initializeBuffers} from "./buffer.ts";
+import {loadTexture} from "./texture.ts";
+
+import vertexShaderCode from './../assets/shaders/vertex.glsl';
+import fragmentShaderCode from './../assets/shaders/fragment.glsl';
+import textureTest from "./../assets/textures/test.jpg";
 
 export class Renderer {
-    private gl: WebGLRenderingContext;
+    private readonly gl: WebGLRenderingContext;
     private programInfo: ProgramInfo;
     private buffers: InitializedBuffers;
-    private texture: WebGLTexture;
+    private readonly texture: WebGLTexture;
     private cubeRotation: number;
     private then: number;
 
-    constructor(gl: WebGLRenderingContext, programInfo: ProgramInfo, buffers: InitializedBuffers, texture: WebGLTexture) {
+    constructor(gl: WebGLRenderingContext) {
         this.gl = gl;
-        this.programInfo = programInfo;
-        this.buffers = buffers;
-        this.texture = texture;
+        this.programInfo = this.initializeProgram(vertexShaderCode, fragmentShaderCode);
+        this.buffers = this.initializeBuffers();
+        this.texture = this.loadTexture(textureTest);
         this.cubeRotation = 0.0;
         this.then = 0;
     }
 
-    public render = (now: number): void => {
+    public render = (): void => {
+        const now: number = performance.now();
         const deltaTime: number = this.calculateDeltaTime(now);
         this.drawScene();
         this.updateCubeRotation(deltaTime);
         requestAnimationFrame(this.render);
+    }
+
+    private initializeProgram(vertexShaderCode: string, fragmentShaderCode: string): ProgramInfo {
+        const shaderProgram: WebGLProgram = initializeProgram(this.gl, vertexShaderCode, fragmentShaderCode);
+        return {
+            program: shaderProgram,
+            attribLocations: {
+                vertexPosition: this.gl.getAttribLocation(shaderProgram, "aVertexPosition"),
+                vertexNormal: this.gl.getAttribLocation(shaderProgram, "aVertexNormal"),
+                textureCoords: this.gl.getAttribLocation(shaderProgram, "aTextureCoords"),
+            },
+            uniformLocations: {
+                projectionMatrix: this.gl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
+                modelMatrix: this.gl.getUniformLocation(shaderProgram, "uModelMatrix"),
+                viewMatrix: this.gl.getUniformLocation(shaderProgram, "uViewMatrix"),
+                normalMatrix: this.gl.getUniformLocation(shaderProgram, "uNormalMatrix"),
+                uSampler: this.gl.getUniformLocation(shaderProgram, "uSampler"),
+            },
+        };
+    }
+
+    private initializeBuffers(): InitializedBuffers {
+        return initializeBuffers(this.gl);
+    }
+
+    private loadTexture(url: string): WebGLTexture {
+        return loadTexture(this.gl, url);
     }
 
     private drawScene(): void {
@@ -62,9 +97,7 @@ export class Renderer {
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
         this.gl.uniform1i(this.programInfo.uniformLocations.uSampler, 0);
 
-        {
-            this.gl.drawElements(this.gl.TRIANGLES, 36, this.gl.UNSIGNED_SHORT, 0);
-        }
+        this.gl.drawElements(this.gl.TRIANGLES, 36, this.gl.UNSIGNED_SHORT, 0);
     }
 
     private updateCubeRotation(deltaTime: number): void {
