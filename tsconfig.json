@@ -22,7 +22,9 @@
         "noFallthroughCasesInSwitch": true,
         "types": [
             "vite-plugin-glsl/ext",
-        ]
+            "jest"
+        ],
+        "esModuleInterop": true,
     },
     "include": [
       "src"
