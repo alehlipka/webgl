@@ -9,10 +9,13 @@ import textureTest from "./assets/textures/test.jpg";
 import { Context } from "./core/Context.ts";
 import {Renderer} from "./core/Renderer.ts";
 
+import vertexShaderCode from './assets/shaders/vertex.glsl';
+import fragmentShaderCode from './assets/shaders/fragment.glsl';
+
 const glContext: Context = new Context('gl-canvas');
 const gl: WebGLRenderingContext = glContext.getContext();
 
-const shaderProgram: WebGLProgram = initializeProgram(gl);
+const shaderProgram: WebGLProgram = initializeProgram(gl, vertexShaderCode, fragmentShaderCode);
 const programInfo: ProgramInfo = {
     program: shaderProgram,
     attribLocations: {

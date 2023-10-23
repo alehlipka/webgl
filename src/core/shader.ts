@@ -1,7 +1,4 @@
-import vertexShaderCode from './../assets/shaders/vertex.glsl';
-import fragmentShaderCode from './../assets/shaders/fragment.glsl';
-
-export function initializeProgram(gl: WebGLRenderingContext): WebGLProgram {
+export function initializeProgram(gl: WebGLRenderingContext, vertexShaderCode: string, fragmentShaderCode: string): WebGLProgram {
     const vertexShader: WebGLShader = loadShader(gl, gl.VERTEX_SHADER, vertexShaderCode);
     const fragmentShader: WebGLShader = loadShader(gl, gl.FRAGMENT_SHADER, fragmentShaderCode);
 
@@ -15,6 +12,9 @@ export function initializeProgram(gl: WebGLRenderingContext): WebGLProgram {
     if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
         throw new Error(`Unable to initialize the shader program: ${gl.getProgramInfoLog(shaderProgram)}`);
     }
+
+    gl.deleteShader(vertexShader);
+    gl.deleteShader(fragmentShader);
 
     return shaderProgram;
 }

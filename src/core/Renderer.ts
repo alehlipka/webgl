@@ -19,11 +19,11 @@ export class Renderer {
         this.then = 0;
     }
 
-    public render(now: number): void {
+    public render = (now: number): void => {
         const deltaTime: number = this.calculateDeltaTime(now);
         this.drawScene();
         this.updateCubeRotation(deltaTime);
-        requestAnimationFrame(this.render.bind(this));
+        requestAnimationFrame(this.render);
     }
 
     private drawScene(): void {
@@ -46,9 +46,9 @@ export class Renderer {
         modelMatrix = Matrix4.Multiply(modelMatrix, translationMatrix);
         const normalMatrix: Matrix4 = Matrix4.Transpose(Matrix4.Invese(modelMatrix));
 
-        this.setPositionAttribute(this.gl, this.programInfo, this.buffers);
-        this.setTextureAttribute(this.gl, this.programInfo, this.buffers);
-        this.setNormalAttribute(this.gl, this.programInfo, this.buffers);
+        this.setPositionAttribute();
+        this.setTextureAttribute();
+        this.setNormalAttribute();
 
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.buffers.indices);
 
@@ -78,21 +78,21 @@ export class Renderer {
         return deltaTime;
     }
 
-    private setPositionAttribute(gl: WebGLRenderingContext, programInfo: ProgramInfo, buffers: InitializedBuffers): void {
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
-        gl.vertexAttribPointer(programInfo.attribLocations.vertexPosition, 3, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
+    private setAttribute(attributeLocation: number, buffer: WebGLBuffer, size: number): void {
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer);
+        this.gl.vertexAttribPointer(attributeLocation, size, this.gl.FLOAT, false, 0, 0);
+        this.gl.enableVertexAttribArray(attributeLocation);
     }
 
-    private setNormalAttribute(gl: WebGLRenderingContext, programInfo: ProgramInfo, buffers: InitializedBuffers): void {
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.normal);
-        gl.vertexAttribPointer(programInfo.attribLocations.vertexNormal, 3, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(programInfo.attribLocations.vertexNormal);
+    private setPositionAttribute(): void {
+        this.setAttribute(this.programInfo.attribLocations.vertexPosition, this.buffers.position, 3);
     }
 
-    private setTextureAttribute(gl: WebGLRenderingContext, programInfo: ProgramInfo, buffers: InitializedBuffers): void {
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoords);
-        gl.vertexAttribPointer(programInfo.attribLocations.textureCoords, 2, gl.FLOAT, false, 0, 0);
-        gl.enableVertexAttribArray(programInfo.attribLocations.textureCoords);
+    private setNormalAttribute(): void {
+        this.setAttribute(this.programInfo.attribLocations.vertexNormal, this.buffers.normal, 3);
+    }
+
+    private setTextureAttribute(): void {
+        this.setAttribute(this.programInfo.attribLocations.textureCoords, this.buffers.textureCoords, 2);
     }
 }

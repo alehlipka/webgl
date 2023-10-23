@@ -1,5 +1,11 @@
+import _ from "lodash";
+
 export class Context {
-    private gl: WebGLRenderingContext;
+    private readonly gl: WebGLRenderingContext;
+
+    private readonly HANDLER_DELAY: number = 200;
+    private readonly WIDTH_OFFSET: number = 20;
+    private readonly HEIGHT_OFFSET: number = 140;
 
     constructor(canvas_id: string) {
         const canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(canvas_id);
@@ -31,26 +37,30 @@ export class Context {
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     }
 
+    private resizeHandler = _.debounce((): void => {
+        this.gl.canvas.width = window.innerWidth - this.WIDTH_OFFSET;
+        this.gl.canvas.height = window.innerHeight - this.HEIGHT_OFFSET;
+        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+    }, this.HANDLER_DELAY);
+
+    private loadHandler = _.debounce((): void => {
+        document.getElementById("preloader")?.classList.add("loaded");
+        document.getElementById("app")?.classList.add("loaded");
+        this.gl.canvas.width = window.innerWidth - this.WIDTH_OFFSET;
+        this.gl.canvas.height = window.innerHeight - this.HEIGHT_OFFSET;
+        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+    }, this.HANDLER_DELAY);
+
+    private fullscreenHandler = (): void => {
+        let elem: HTMLCanvasElement = <HTMLCanvasElement>this.gl.canvas;
+        document.fullscreenElement
+            ? document.exitFullscreen()
+            : elem.requestFullscreen();
+    };
+
     private initializeListeners(): void {
-        window.addEventListener("load", (): void => {
-            document.querySelector("#preloader")?.classList.add("loaded");
-            document.querySelector("#app")?.classList.add("loaded");
-            this.gl.canvas.width = window.innerWidth - 20;
-            this.gl.canvas.height = window.innerHeight - 140;
-            this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-        });
-
-        window.addEventListener("resize", (): void => {
-            this.gl.canvas.width = window.innerWidth - 20;
-            this.gl.canvas.height = window.innerHeight - 140;
-            this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-        });
-
-        this.gl.canvas.addEventListener("dblclick", (): void => {
-            let elem = <HTMLCanvasElement>this.gl.canvas;
-            document.fullscreenElement
-                ? document.exitFullscreen()
-                : elem.requestFullscreen();
-        });
+        window.addEventListener("load", this.loadHandler);
+        window.addEventListener("resize", this.resizeHandler);
+        this.gl.canvas.addEventListener("dblclick", this.fullscreenHandler);
     }
 }

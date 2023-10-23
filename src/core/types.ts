@@ -7,16 +7,20 @@ export type InitializedBuffers = {
 
 export type ProgramInfo = {
     program: WebGLProgram,
-    attribLocations: {
-        vertexPosition: number,
-        vertexNormal: number,
-        textureCoords: number,
-    },
-    uniformLocations: {
-        projectionMatrix: WebGLUniformLocation|null,
-        modelMatrix: WebGLUniformLocation|null,
-        viewMatrix: WebGLUniformLocation|null,
-        normalMatrix: WebGLUniformLocation|null,
-        uSampler: WebGLUniformLocation|null,
-    },
+    attribLocations: AttributeLocations,
+    uniformLocations: UniformLocations,
+};
+
+type AttributeLocations = {
+    vertexPosition: number,
+    vertexNormal: number,
+    textureCoords: number,
+};
+
+type UniformLocations = {
+    projectionMatrix: WebGLUniformLocation|null,
+    modelMatrix: WebGLUniformLocation|null,
+    viewMatrix: WebGLUniformLocation|null,
+    normalMatrix: WebGLUniformLocation|null,
+    uSampler: WebGLUniformLocation|null,
 };

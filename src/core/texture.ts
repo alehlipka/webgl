@@ -28,10 +28,7 @@ export function loadTexture(gl: WebGLRenderingContext, url: string): WebGLTextur
             image,
         );
 
-        // WebGL1 has different requirements for power of 2 images
-        // vs. non power of 2 images so check if the image is a
-        // power of 2 in both dimensions.
-        if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
+        if (isPowerOfTwo(image.width) && isPowerOfTwo(image.height)) {
             gl.generateMipmap(gl.TEXTURE_2D);
         } else {
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -39,11 +36,24 @@ export function loadTexture(gl: WebGLRenderingContext, url: string): WebGLTextur
             gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         }
     };
+    image.onerror = (): void => {
+        throw new Error("Image loading error");
+    };
     image.src = url;
+
+    gl.bindTexture(gl.TEXTURE_2D, null);
 
     return texture;
 }
 
-function isPowerOf2(value: number): boolean {
+/**
+ * Checks if a given value is a power of two.
+ * @param value - The value to check.
+ * @returns True if the value is a power of two, false otherwise.
+ */
+function isPowerOfTwo(value: number): boolean {
+    if (value < 1) {
+        return false;
+    }
     return (value & (value - 1)) === 0;
 }
