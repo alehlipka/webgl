@@ -21,10 +21,8 @@
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
         "types": [
-            "vite-plugin-glsl/ext",
-            "jest"
+            "vite-plugin-glsl/ext"
         ],
-        "esModuleInterop": true,
     },
     "include": [
       "src"
