@@ -1,8 +1,7 @@
-export type InitializedBuffers = {
-    position: WebGLBuffer,
-    normal: WebGLBuffer,
-    textureCoords: WebGLBuffer,
-    indices: WebGLBuffer,
+import { Matrix4 } from "./math/Matrix4";
+
+export type DrawInfo = {
+    modelMatrix: Matrix4
 };
 
 export type shaderCodes = {

@@ -1,6 +1,6 @@
 import "./assets/styles/main.scss";
 
-import {shaderCodes} from "./core/types.ts";
+import {ProgramInfo, shaderCodes} from "./core/types.ts";
 import {Vector3} from "./core/math/Vector3.ts";
 
 import {Context} from "./core/Context.ts";
@@ -16,9 +16,10 @@ const gl: WebGLRenderingContext = glContext.getContext();
 
 const shaders: shaderCodes = {vertex: vertexShaderCode, fragment: fragmentShaderCode};
 const shader: Shader = new Shader(gl, shaders);
+const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 
-const renderer: Renderer = new Renderer(gl, shader);
-renderer.addObject(new Cube(Vector3.Zero()));
+const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
+renderer.addObject(new Cube(gl, Vector3.Zero()));
 renderer.run();
 
 window.addEventListener('load', (): void => {
