@@ -1,10 +1,10 @@
-import {InitializedBuffers, perspectiveSettings, ProgramInfo} from "./types.ts";
+import {perspectiveSettings, ProgramInfo} from "./types.ts";
 import {Matrix4} from "./math/Matrix4.ts";
 import {Vector3} from "./math/Vector3.ts";
 import {Shader} from "./Shader.ts";
 import {Loader} from "./Loader.ts";
+import {Buffer} from "./Buffer.ts";
 
-import {initializeBuffers} from "./buffer_old.ts";
 import textureTest from "./../assets/textures/test.jpg";
 import {Object3d} from "../objects/Object3d.ts";
 
@@ -14,7 +14,6 @@ export class Renderer {
     private readonly shader: Shader;
 
     private programInfo: ProgramInfo;
-    private buffers: InitializedBuffers;
     private cubeRotation: number;
     private then: number;
 
@@ -31,7 +30,7 @@ export class Renderer {
         this.shader = shader;
 
         this.programInfo = this.shader.getProgramInfo();
-        this.buffers = this.initializeBuffers();
+        Buffer.InitializeBuffers(this.gl);
         this.cubeRotation = 0.0;
         this.then = 0;
 
@@ -106,9 +105,6 @@ export class Renderer {
         });
     }
 
-    private initializeBuffers(): InitializedBuffers {
-        return initializeBuffers(this.gl);
-    }
     private drawScene(): void {
         const translationMatrix: Matrix4 = Matrix4.CreateTranslation(new Vector3(0.0, 0.0, 0.0));
         const rotationXMatrix: Matrix4 = Matrix4.CreateRotationX(this.cubeRotation * 0.3);
@@ -118,11 +114,22 @@ export class Renderer {
         const modelMatrix: Matrix4 = this.createModelMatrix(rotationXMatrix, rotationYMatrix, rotationZMatrix, translationMatrix);
         const normalMatrix: Matrix4 = Matrix4.Transpose(Matrix4.Invese(modelMatrix));
 
-        this.setPositionAttribute();
-        this.setTextureAttribute();
-        this.setNormalAttribute();
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, Buffer.ObjectBuffer);
 
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.buffers.indices);
+        const FLOATsize: number = 4;
+        const VertexLength: number = 8;
+        const stride = VertexLength * FLOATsize;
+        
+        this.gl.vertexAttribPointer(this.programInfo.attribLocations.vertexPosition, 3, this.gl.FLOAT, false, stride, 0);
+        this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexPosition);
+
+        this.gl.vertexAttribPointer(this.programInfo.attribLocations.vertexNormal, 3, this.gl.FLOAT, false, stride, 3 * FLOATsize);
+        this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexNormal);
+
+        this.gl.vertexAttribPointer(this.programInfo.attribLocations.textureCoords, 2, this.gl.FLOAT, false, stride, 6 * FLOATsize);
+        this.gl.enableVertexAttribArray(this.programInfo.attribLocations.textureCoords);
+
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, Buffer.IndexBuffer);
 
         this.gl.useProgram(this.programInfo.program);
         this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.modelMatrix, false, modelMatrix.ToArray());
@@ -146,19 +153,5 @@ export class Renderer {
         this.then = now;
 
         return deltaTime;
-    }
-    private setAttribute(attributeLocation: number, buffer: WebGLBuffer, size: number): void {
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, buffer);
-        this.gl.vertexAttribPointer(attributeLocation, size, this.gl.FLOAT, false, 0, 0);
-        this.gl.enableVertexAttribArray(attributeLocation);
-    }
-    private setPositionAttribute(): void {
-        this.setAttribute(this.programInfo.attribLocations.vertexPosition, this.buffers.position, 3);
-    }
-    private setNormalAttribute(): void {
-        this.setAttribute(this.programInfo.attribLocations.vertexNormal, this.buffers.normal, 3);
-    }
-    private setTextureAttribute(): void {
-        this.setAttribute(this.programInfo.attribLocations.textureCoords, this.buffers.textureCoords, 2);
     }
 }

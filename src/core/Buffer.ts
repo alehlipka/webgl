@@ -1,5 +1,5 @@
 export class Buffer {
-    public static readonly ObjectsBuffer: number[] = [
+    public static readonly ObjectBufferArray: number[] = [
         // Position             // Normal           // Texture
         -10.0, -10.0, +10.0,    +0.0, +0.0, +1.0,   0.0, 0.0,   // Front face
         +10.0, -10.0, +10.0,    +0.0, +0.0, +1.0,   1.0, 0.0,   // Front face
@@ -14,7 +14,7 @@ export class Buffer {
 
         // Position             // Normal           // Texture
         -10.0, +10.0, -10.0,    +0.0, +1.0, +0.0,   0.0, 0.0,   // Top face
-        +10.0, -10.0, -10.0,    +0.0, +1.0, +0.0,   1.0, 0.0,   // Top face
+        -10.0, +10.0, +10.0,    +0.0, +1.0, +0.0,   1.0, 0.0,   // Top face
         +10.0, +10.0, +10.0,    +0.0, +1.0, +0.0,   1.0, 1.0,   // Top face
         +10.0, +10.0, -10.0,    +0.0, +1.0, +0.0,   0.0, 1.0,   // Top face
 
@@ -37,7 +37,7 @@ export class Buffer {
         -10.0, +10.0, -10.0,    -1.0, +0.0, +0.0,   0.0, 1.0,   // Left face
     ];
 
-    public static readonly IndexBuffer: number[] = [
+    public static readonly IndexBufferArray: number[] = [
         // Front face
         0,  1,  2,  0,  2,  3,
         // Back face
@@ -52,6 +52,9 @@ export class Buffer {
         20, 21, 22, 20, 22, 23,
     ];
 
+    public static ObjectBuffer: WebGLBuffer;
+    public static IndexBuffer: WebGLBuffer;
+
     public static InitializeBuffers(gl: WebGLRenderingContext): void {
         const objectBuffer: WebGLBuffer | null = gl.createBuffer();
         const indexBuffer: WebGLBuffer | null = gl.createBuffer();
@@ -60,9 +63,16 @@ export class Buffer {
         if (indexBuffer === null) throw new Error("Index buffer creation error");
 
         gl.bindBuffer(gl.ARRAY_BUFFER, objectBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(Buffer.ObjectsBuffer), gl.STATIC_DRAW);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(Buffer.ObjectBufferArray), gl.STATIC_DRAW);
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(Buffer.IndexBuffer), gl.STATIC_DRAW);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(Buffer.IndexBufferArray), gl.STATIC_DRAW);
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
+
+        this.ObjectBuffer = objectBuffer;
+        this.IndexBuffer = indexBuffer;
     }
 }
