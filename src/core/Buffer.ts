@@ -36,6 +36,7 @@ export class Buffer {
         -10.0, +10.0, +10.0,    -1.0, +0.0, +0.0,   1.0, 1.0,   // Left face
         -10.0, +10.0, -10.0,    -1.0, +0.0, +0.0,   0.0, 1.0,   // Left face
     ];
+
     public static readonly IndexBuffer: number[] = [
         // Front face
         0,  1,  2,  0,  2,  3,
@@ -50,4 +51,18 @@ export class Buffer {
         // Left face
         20, 21, 22, 20, 22, 23,
     ];
+
+    public static InitializeBuffers(gl: WebGLRenderingContext): void {
+        const objectBuffer: WebGLBuffer | null = gl.createBuffer();
+        const indexBuffer: WebGLBuffer | null = gl.createBuffer();
+
+        if (objectBuffer === null) throw new Error("Position buffer creation error");
+        if (indexBuffer === null) throw new Error("Index buffer creation error");
+
+        gl.bindBuffer(gl.ARRAY_BUFFER, objectBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(Buffer.ObjectsBuffer), gl.STATIC_DRAW);
+
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(Buffer.IndexBuffer), gl.STATIC_DRAW);
+    }
 }
