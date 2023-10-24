@@ -1,7 +1,8 @@
 import { Matrix4 } from "./math/Matrix4";
 
 export type DrawInfo = {
-    modelMatrix: Matrix4
+    modelMatrix: Matrix4,
+    elementsCount: number,
 };
 
 export type shaderCodes = {
@@ -25,7 +26,7 @@ export type perspectiveSettings = {
 type AttributeLocations = {
     vertexPosition: number,
     vertexNormal: number,
-    textureCoords: number,
+    vertexTexture: number,
 };
 
 type UniformLocations = {

@@ -43,6 +43,7 @@ export class Object3d {
     public set position(value: Vector3) {
         this._position = value;
         this.translationMatrix = Matrix4.CreateTranslation(this._position);
+        
         this.createModelMatrix();
     }
     
@@ -55,6 +56,7 @@ export class Object3d {
         this.rotationXMatrix = Matrix4.CreateRotationX(this._rotation.X);
         this.rotationYMatrix = Matrix4.CreateRotationY(this._rotation.Y);
         this.rotationZMatrix = Matrix4.CreateRotationZ(this._rotation.Z);
+
         this.createModelMatrix();
     }
     
@@ -66,24 +68,14 @@ export class Object3d {
         this._scale = value;
     }
 
-    public get modelMatrix(): Matrix4 {
-        return this._modelMatrix;
-    }
+    public resize(_width: number, _height: number): void {}
 
-    public resize(_width: number, _height: number): void {
-        
-    }
-
-    public update(elapsedSeconds: number): void {
-        this.rotation = new Vector3(
-            this._rotation.X + elapsedSeconds,
-            this._rotation.Y + elapsedSeconds,
-            this._rotation.Z + elapsedSeconds);
-    }
+    public update(_elapsedSeconds: number): void {}
 
     public drawInfo(_elapsedSeconds: number): DrawInfo {
         return {
-            modelMatrix: this.modelMatrix
+            modelMatrix: this._modelMatrix,
+            elementsCount: this.getIndexBuffer().length
         }
     }
 
@@ -96,17 +88,8 @@ export class Object3d {
     }
 
     protected createModelMatrix(): Matrix4 {
-        this._modelMatrix = Matrix4.Multiply(
-            Matrix4.Multiply(
-                Matrix4.Multiply(
-                    this.rotationXMatrix,
-                    this.rotationYMatrix
-                ),
-                this.rotationZMatrix
-            ),
-            this.translationMatrix
-        );
-
-        return this.modelMatrix;
+        this._modelMatrix = Matrix4.Multiply(Matrix4.Multiply(Matrix4.Multiply(this.rotationXMatrix, this.rotationYMatrix), this.rotationZMatrix), this.translationMatrix);
+        
+        return this._modelMatrix;
     }
 }

@@ -38,7 +38,7 @@ export class Shader {
             attribLocations: {
                 vertexPosition: this.gl.getAttribLocation(shaderProgram, "aVertexPosition"),
                 vertexNormal: this.gl.getAttribLocation(shaderProgram, "aVertexNormal"),
-                textureCoords: this.gl.getAttribLocation(shaderProgram, "aTextureCoords"),
+                vertexTexture: this.gl.getAttribLocation(shaderProgram, "aTextureCoords"),
             },
             uniformLocations: {
                 projectionMatrix: this.gl.getUniformLocation(shaderProgram, "uProjectionMatrix"),

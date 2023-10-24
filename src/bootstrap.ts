@@ -7,6 +7,7 @@ import {Context} from "./core/Context.ts";
 import {Renderer} from "./core/Renderer.ts";
 import {Shader} from "./core/Shader.ts";
 import {Cube} from "./objects/Cube.ts";
+import {Plane} from "./objects/Plane.ts";
 
 import vertexShaderCode from './assets/shaders/vertex.glsl';
 import fragmentShaderCode from './assets/shaders/fragment.glsl';
@@ -20,7 +21,8 @@ const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
 renderer
-    .addObject(new Cube(gl, Vector3.Zero(), new Vector3(1, 2, 3)))
+    .addObject(new Plane(gl, new Vector3(0, 0, 0), new Vector3(1.5, 1.5, 0.5)))
+    .addObject(new Cube(gl, Vector3.Zero(), new Vector3(1, 1, 1)))
     .initialize()
     .run();
 

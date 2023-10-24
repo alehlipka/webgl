@@ -9,6 +9,13 @@ export class Cube extends Object3d {
         this.size = size;
     }
 
+    override update(_elapsedSeconds: number): void {
+        this.rotation = new Vector3(
+            this._rotation.X + _elapsedSeconds * 1,
+            this._rotation.Y + _elapsedSeconds * 0.5,
+            this._rotation.Z + _elapsedSeconds * 0.2);
+    }
+
     override getObjectBuffer(): number[] {
         const halfX = this.size.X / 2;
         const halfY = this.size.Y / 2;
@@ -66,7 +73,7 @@ export class Cube extends Object3d {
             // Right face
             16, 17, 18, 16, 18, 19,
             // Left face
-            20, 21, 22, 20, 22, 23,
+            20, 21, 22, 20, 22, 23
         ];
     }
 }

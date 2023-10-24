@@ -30,31 +30,31 @@ export class Matrix4 {
     private static readonly zero: Matrix4 = new Matrix4(Vector4.Zero(), Vector4.Zero(), Vector4.Zero(), Vector4.Zero());
 
     public static Identity(): Matrix4 {
-        return _.cloneDeep<Matrix4>(Matrix4.identity);
+        return _.cloneDeep(Matrix4.identity);
     }
 
     public static Zero(): Matrix4 {
-        return _.cloneDeep<Matrix4>(Matrix4.zero);
+        return _.cloneDeep(Matrix4.zero);
     }
 
     public Column0(): Vector4 {
-        return _.cloneDeep<Vector4>(new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X));
+        return _.cloneDeep(new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X));
     }
 
     public Column1(): Vector4 {
-        return _.cloneDeep<Vector4>(new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X));
+        return _.cloneDeep(new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X));
     }
 
     public Column2(): Vector4 {
-        return _.cloneDeep<Vector4>(new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X));
+        return _.cloneDeep(new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X));
     }
 
     public Column3(): Vector4 {
-        return _.cloneDeep<Vector4>(new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X));
+        return _.cloneDeep(new Vector4(this.Row0.X, this.Row1.X, this.Row2.X, this.Row3.X));
     }
 
     public clone(): Matrix4 {
-        return _.cloneDeep<Matrix4>(this);
+        return _.cloneDeep(this);
     }
 
     public Determinant(): number {
@@ -196,7 +196,10 @@ export class Matrix4 {
         return result;
     }
 
-    public static Multiply(left: Matrix4, right: Matrix4): Matrix4 {
+    public static Multiply(l: Matrix4, r: Matrix4): Matrix4 {
+        let left = _.cloneDeep(l);
+        let right = _.cloneDeep(r);
+
         const leftM11: number = left.Row0.X;
         const leftM12: number = left.Row0.Y;
         const leftM13: number = left.Row0.Z;
@@ -251,7 +254,9 @@ export class Matrix4 {
         return result;
     }
 
-    public static Invese(mat: Matrix4): Matrix4 {
+    public static Invese(m: Matrix4): Matrix4 {
+        let mat = _.cloneDeep(m);
+
         const a00: number = mat.Row0.X;
         const a01: number = mat.Row0.Y;
         const a02: number = mat.Row0.Z;
@@ -317,7 +322,8 @@ export class Matrix4 {
         return result;
     }
 
-    public static Transpose(matrix: Matrix4): Matrix4 {
+    public static Transpose(m: Matrix4): Matrix4 {
+        let matrix = _.cloneDeep(m);
         return new Matrix4(matrix.Column0(), matrix.Column1(), matrix.Column2(), matrix.Column3());
     }
 }

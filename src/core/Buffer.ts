@@ -2,28 +2,25 @@ export class Buffer {
     private static ObjectBufferArray: number[] = [];
     private static IndexBufferArray: number[] = [];
 
-    public static ObjectBuffer: WebGLBuffer;
-    public static IndexBuffer: WebGLBuffer;
+    public static ObjectBuffer: WebGLBuffer|null;
+    public static IndexBuffer: WebGLBuffer|null;
 
     public static InitializeBuffers(gl: WebGLRenderingContext): void {
-        const objectBuffer: WebGLBuffer | null = gl.createBuffer();
-        const indexBuffer: WebGLBuffer | null = gl.createBuffer();
+        this.ObjectBuffer = gl.createBuffer();
+        this.IndexBuffer = gl.createBuffer();
 
-        if (objectBuffer === null) throw new Error("Position buffer creation error");
-        if (indexBuffer === null) throw new Error("Index buffer creation error");
+        if (this.ObjectBuffer === null) throw new Error("Position buffer creation error");
+        if (this.IndexBuffer === null) throw new Error("Index buffer creation error");
 
-        gl.bindBuffer(gl.ARRAY_BUFFER, objectBuffer);
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.ObjectBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(Buffer.ObjectBufferArray), gl.STATIC_DRAW);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, null);
 
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.IndexBuffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(Buffer.IndexBufferArray), gl.STATIC_DRAW);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
-
-        this.ObjectBuffer = objectBuffer;
-        this.IndexBuffer = indexBuffer;
     }
 
     public static FillObjectArray(array: number[]): void {
