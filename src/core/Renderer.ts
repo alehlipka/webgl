@@ -4,7 +4,7 @@ import {Vector3} from "./math/Vector3.ts";
 import {Shader} from "./Shader.ts";
 import {Loader} from "./Loader.ts";
 
-import {initializeBuffers} from "./buffer.ts";
+import {initializeBuffers} from "./buffer_old.ts";
 import textureTest from "./../assets/textures/test.jpg";
 import {Object3d} from "../objects/Object3d.ts";
 
@@ -90,7 +90,7 @@ export class Renderer {
     }
 
     private update(elapsedSeconds: number): void {
-        this.updateCubeRotation(elapsedSeconds);
+        this.cubeRotation += elapsedSeconds;
 
         this.objects.forEach((object3d: Object3d): void => {
             object3d.update(elapsedSeconds);
@@ -139,9 +139,7 @@ export class Renderer {
     private createModelMatrix(rotationXMatrix: Matrix4, rotationYMatrix: Matrix4, rotationZMatrix: Matrix4, translationMatrix: Matrix4): Matrix4 {
         return Matrix4.Multiply(Matrix4.Multiply(Matrix4.Multiply(rotationXMatrix, rotationYMatrix), rotationZMatrix), translationMatrix);
     }
-    private updateCubeRotation(deltaTime: number): void {
-        this.cubeRotation += deltaTime;
-    }
+
     private getDeltaTime(): number {
         const now: number = performance.now() * 0.001; // convert to seconds
         const deltaTime: number = now - this.then;

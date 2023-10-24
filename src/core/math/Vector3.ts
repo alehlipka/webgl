@@ -37,6 +37,10 @@ export class Vector3 {
         return _.cloneDeep<Vector3>(Vector3.one);
     }
 
+    public ToArray(): number[] {
+        return [this.X, this.Y, this.Z];
+    }
+
     public Length(): number {
         return Math.sqrt((this.X * this.X) + (this.Y * this.Y) + (this.Z * this.Z));
     }

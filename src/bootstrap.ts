@@ -17,7 +17,7 @@ const gl: WebGLRenderingContext = glContext.getContext();
 const shaders: shaderCodes = {vertex: vertexShaderCode, fragment: fragmentShaderCode};
 const shader: Shader = new Shader(gl, shaders);
 
-const renderer = new Renderer(gl, shader);
+const renderer: Renderer = new Renderer(gl, shader);
 renderer.addObject(new Cube(Vector3.Zero()));
 renderer.run();
 
