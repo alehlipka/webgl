@@ -5,7 +5,6 @@ attribute vec2 aTextureCoords;
 uniform mat4 uModelMatrix;
 uniform mat4 uViewMatrix;
 uniform mat4 uProjectionMatrix;
-uniform mat4 uNormalMatrix;
 
 varying highp vec2 vTextureCoord;
 varying highp vec3 vFragPosition;
@@ -14,8 +13,7 @@ varying highp vec3 vNormal;
 void main(void) {
     vFragPosition = vec3(uModelMatrix * vec4(aVertexPosition, 1.0));
     vTextureCoord = aTextureCoords;
-    vNormal = vec3(uNormalMatrix * vec4(aVertexNormal, 1.0));
-    vNormal = vec3(uViewMatrix * vec4(aVertexNormal, 1.0));
+    vNormal = vec3(uModelMatrix * vec4(aVertexNormal, 1.0));
 
     gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
 }

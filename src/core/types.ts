@@ -33,6 +33,5 @@ type UniformLocations = {
     projectionMatrix: WebGLUniformLocation|null,
     modelMatrix: WebGLUniformLocation|null,
     viewMatrix: WebGLUniformLocation|null,
-    normalMatrix: WebGLUniformLocation|null,
     uSampler: WebGLUniformLocation|null,
 };

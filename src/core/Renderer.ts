@@ -39,7 +39,7 @@ export class Renderer {
         this.viewMatrix = Matrix4.LookAt(new Vector3(0, 0, 6), new Vector3(0, 0, 0), Vector3.UnixY());
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 
-        this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+        this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
         this.gl.enable(this.gl.DEPTH_TEST);
         // this.gl.enable(this.gl.CULL_FACE);
         this.gl.enable(this.gl.BLEND);
@@ -53,7 +53,6 @@ export class Renderer {
         this.gl.useProgram(this.programInfo.program);
         this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.viewMatrix, false, this.viewMatrix.ToArray());
         this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.projectionMatrix, false, this.projectionMatrix.ToArray());
-        this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.normalMatrix, false, Matrix4.Identity().ToArray());
     }
 
     public addObject(object3d: Object3d): this {
