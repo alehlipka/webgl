@@ -19,8 +19,10 @@ const shader: Shader = new Shader(gl, shaders);
 const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
-renderer.addObject(new Cube(gl, Vector3.Zero()));
-renderer.run();
+renderer
+    .addObject(new Cube(gl, Vector3.Zero(), new Vector3(1, 2, 3)))
+    .initialize()
+    .run();
 
 window.addEventListener('load', (): void => {
     glContext.OnLoad(window.innerWidth, window.innerHeight);

@@ -36,7 +36,7 @@ export class Renderer {
         };
 
         this.projectionMatrix = Matrix4.Perspective(this.perspective.fov, this.perspective.aspect, this.perspective.near, this.perspective.far);
-        this.viewMatrix = Matrix4.LookAt(new Vector3(0, 0, 60), new Vector3(0, 0, 0), Vector3.UnixY());
+        this.viewMatrix = Matrix4.LookAt(new Vector3(0, 0, 6), new Vector3(0, 0, 0), Vector3.UnixY());
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -57,6 +57,14 @@ export class Renderer {
 
     public addObject(object3d: Object3d): this {
         this.objects.push(object3d);
+
+        return this;
+    }
+
+    public initialize(): this {
+        this.objects.forEach((object3d: Object3d): void => {
+            object3d.Initialize();
+        });
 
         Buffer.InitializeBuffers(this.gl);
 

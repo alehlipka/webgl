@@ -16,59 +16,6 @@ export class Object3d {
     protected _scale: Vector3;
     protected _modelMatrix: Matrix4;
 
-    protected readonly objectBuffer: number[] = [
-        // Position             // Normal           // Texture
-        -10.0, -10.0, +10.0,    +0.0, +0.0, +1.0,   0.0, 0.0,   // Front face
-        +10.0, -10.0, +10.0,    +0.0, +0.0, +1.0,   1.0, 0.0,   // Front face
-        +10.0, +10.0, +10.0,    +0.0, +0.0, +1.0,   1.0, 1.0,   // Front face
-        -10.0, +10.0, +10.0,    +0.0, +0.0, +1.0,   0.0, 1.0,   // Front face
-
-        // Position             // Normal           // Texture
-        -10.0, -10.0, -10.0,    +0.0, +0.0, -1.0,   0.0, 0.0,   // Back face
-        -10.0, +10.0, -10.0,    +0.0, +0.0, -1.0,   1.0, 0.0,   // Back face
-        +10.0, +10.0, -10.0,    +0.0, +0.0, -1.0,   1.0, 1.0,   // Back face
-        +10.0, -10.0, -10.0,    +0.0, +0.0, -1.0,   0.0, 1.0,   // Back face
-
-        // Position             // Normal           // Texture
-        -10.0, +10.0, -10.0,    +0.0, +1.0, +0.0,   0.0, 0.0,   // Top face
-        -10.0, +10.0, +10.0,    +0.0, +1.0, +0.0,   1.0, 0.0,   // Top face
-        +10.0, +10.0, +10.0,    +0.0, +1.0, +0.0,   1.0, 1.0,   // Top face
-        +10.0, +10.0, -10.0,    +0.0, +1.0, +0.0,   0.0, 1.0,   // Top face
-
-        // Position             // Normal           // Texture
-        -10.0, -10.0, -10.0,    +0.0, -1.0, +0.0,   0.0, 0.0,   // Bottom face
-        +10.0, -10.0, -10.0,    +0.0, -1.0, +0.0,   1.0, 0.0,   // Bottom face
-        +10.0, -10.0, +10.0,    +0.0, -1.0, +0.0,   1.0, 1.0,   // Bottom face
-        -10.0, -10.0, +10.0,    +0.0, -1.0, +0.0,   0.0, 1.0,   // Bottom face
-
-        // Position             // Normal           // Texture
-        +10.0, -10.0, -10.0,    +1.0, +0.0, +0.0,   0.0, 0.0,   // Right face
-        +10.0, +10.0, -10.0,    +1.0, +0.0, +0.0,   1.0, 0.0,   // Right face
-        +10.0, +10.0, +10.0,    +1.0, +0.0, +0.0,   1.0, 1.0,   // Right face
-        +10.0, -10.0, +10.0,    +1.0, +0.0, +0.0,   0.0, 1.0,   // Right face
-
-        // Position             // Normal           // Texture
-        -10.0, -10.0, -10.0,    -1.0, +0.0, +0.0,   0.0, 0.0,   // Left face
-        -10.0, -10.0, +10.0,    -1.0, +0.0, +0.0,   1.0, 0.0,   // Left face
-        -10.0, +10.0, +10.0,    -1.0, +0.0, +0.0,   1.0, 1.0,   // Left face
-        -10.0, +10.0, -10.0,    -1.0, +0.0, +0.0,   0.0, 1.0,   // Left face
-    ];
-
-    protected readonly indexBuffer: number[] = [
-        // Front face
-        0,  1,  2,  0,  2,  3,
-        // Back face
-        4,  5,  6,  4,  6,  7,
-        // Top face
-        8,  9,  10, 8,  10, 11,
-        // Bottom face
-        12, 13, 14, 12, 14, 15,
-        // Right face
-        16, 17, 18, 16, 18, 19,
-        // Left face
-        20, 21, 22, 20, 22, 23,
-    ];
-
     constructor(gl: WebGLRenderingContext, position: Vector3, rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
         this.gl = gl;
 
@@ -82,9 +29,11 @@ export class Object3d {
         this.translationMatrix = Matrix4.CreateTranslation(this._position);
 
         this._modelMatrix = this.createModelMatrix();
+    }
 
-        Buffer.FillObjectArray(this.objectBuffer);
-        Buffer.FillIndexArray(this.indexBuffer);
+    public Initialize(): void {
+        Buffer.FillObjectArray(this.getObjectBuffer());
+        Buffer.FillIndexArray(this.getIndexBuffer());
     }
 
     public get position(): Vector3 {
@@ -121,7 +70,7 @@ export class Object3d {
         return this._modelMatrix;
     }
 
-    public resize(width: number, height: number): void {
+    public resize(_width: number, _height: number): void {
         
     }
 
@@ -132,10 +81,18 @@ export class Object3d {
             this._rotation.Z + elapsedSeconds);
     }
 
-    public drawInfo(elapsedSeconds: number): DrawInfo {
+    public drawInfo(_elapsedSeconds: number): DrawInfo {
         return {
             modelMatrix: this.modelMatrix
         }
+    }
+
+    protected getObjectBuffer(): number[] {
+        return [];
+    }
+
+    protected getIndexBuffer(): number[] {
+        return [];
     }
 
     protected createModelMatrix(): Matrix4 {
