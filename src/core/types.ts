@@ -1,12 +1,3 @@
-import {Vector3} from "./math/Vector3.ts";
-import {Vector2} from "./math/Vector2.ts";
-
-export type PositionNormalTextureVertex = {
-    position: Vector3,
-    normal: Vector3,
-    texture: Vector2,
-}
-
 export type InitializedBuffers = {
     position: WebGLBuffer,
     normal: WebGLBuffer,
