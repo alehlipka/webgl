@@ -4,7 +4,7 @@ import {Vector3} from "./math/Vector3.ts";
 import {Loader} from "./Loader.ts";
 import {Buffer} from "./Buffer.ts";
 
-import textureTest from "./../assets/textures/test.jpg";
+import textureTest from "./../assets/textures/debug.jpg";
 import {Object3d} from "../objects/Object3d.ts";
 
 export class Renderer {

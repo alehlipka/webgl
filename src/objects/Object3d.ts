@@ -88,7 +88,8 @@ export class Object3d {
     }
 
     protected createModelMatrix(): Matrix4 {
-        this._modelMatrix = Matrix4.Multiply(Matrix4.Multiply(Matrix4.Multiply(this.rotationXMatrix, this.rotationYMatrix), this.rotationZMatrix), this.translationMatrix);
+        const rotation: Matrix4 = Matrix4.Multiply(Matrix4.Multiply(this.rotationXMatrix, this.rotationYMatrix), this.rotationZMatrix);
+        this._modelMatrix = Matrix4.Multiply(rotation, this.translationMatrix);
         
         return this._modelMatrix;
     }
