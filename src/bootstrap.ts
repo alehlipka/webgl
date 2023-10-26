@@ -1,6 +1,7 @@
 import "./assets/styles/main.scss";
 
 import {ProgramInfo, shaderCodes} from "./core/types.ts";
+import {Vector2} from "./core/math/Vector2.ts";
 import {Vector3} from "./core/math/Vector3.ts";
 
 import {Context} from "./core/Context.ts";
@@ -22,8 +23,8 @@ const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
 const plane: Plane = new Plane(
     gl,
-    new Vector3(0, 0, 0),
-    new Vector3(1.5, 1.5, 0.5)
+    new Vector3(1, 1, 0),
+    new Vector2(1, 1)
 );
 const cube: Cube = new Cube(
     gl,

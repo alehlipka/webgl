@@ -1,7 +1,7 @@
 import {Matrix4} from "../core/math/Matrix4.ts";
 import {Vector3} from "../core/math/Vector3.ts";
-import {Buffer} from "../core/Buffer.ts";
-import { DrawInfo } from "../core/types.ts";
+import {ProgramInfo} from "../core/types.ts";
+import {FLOAT_SIZE, VERTEX_LENGTH} from "../core/constants.ts";
 
 export class Object3d {
     protected readonly gl: WebGL2RenderingContext;
@@ -14,7 +14,13 @@ export class Object3d {
     protected _position: Vector3;
     protected _rotation: Vector3;
     protected _scale: Vector3;
-    protected _modelMatrix: Matrix4;
+    protected modelMatrix: Matrix4;
+
+    protected objectBufferArray: number[];
+    protected indexBufferArray: number[];
+    protected objectBuffer: WebGLBuffer;
+    protected indexBuffer: WebGLBuffer;
+
 
     constructor(gl: WebGL2RenderingContext, position: Vector3, rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
         this.gl = gl;
@@ -26,14 +32,37 @@ export class Object3d {
         this.rotationXMatrix = Matrix4.CreateRotationX(this._rotation.X);
         this.rotationYMatrix = Matrix4.CreateRotationY(this._rotation.Y);
         this.rotationZMatrix = Matrix4.CreateRotationZ(this._rotation.Z);
+
         this.translationMatrix = Matrix4.CreateTranslation(this._position);
 
-        this._modelMatrix = this.createModelMatrix();
+        this.modelMatrix = this.createModelMatrix();
+
+        this.objectBufferArray = [];
+        this.indexBufferArray = [];
+
+        const objectBuffer: WebGLBuffer|null = this.gl.createBuffer();
+        const indexBuffer: WebGLBuffer|null = this.gl.createBuffer();
+
+        if (objectBuffer === null) throw new Error("Position buffer creation error");
+        if (indexBuffer === null) throw new Error("Index buffer creation error");
+
+        this.objectBuffer = objectBuffer;
+        this.indexBuffer = indexBuffer;
     }
 
-    public Initialize(): void {
-        Buffer.FillObjectArray(this.getObjectBuffer());
-        Buffer.FillIndexArray(this.getIndexBuffer());
+    public InitializeBuffers(): void {
+        this.objectBufferArray = this.getObjectBuffer();
+        this.indexBufferArray = this.getIndexBuffer();
+
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.objectBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(this.objectBufferArray), this.gl.STATIC_DRAW);
+
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
+
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+        this.gl.bufferData(this.gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(this.indexBufferArray), this.gl.STATIC_DRAW);
+
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, null);
     }
 
     public get position(): Vector3 {
@@ -43,7 +72,6 @@ export class Object3d {
     public set position(value: Vector3) {
         this._position = value;
         this.translationMatrix = Matrix4.CreateTranslation(this._position);
-        
         this.createModelMatrix();
     }
     
@@ -56,7 +84,6 @@ export class Object3d {
         this.rotationXMatrix = Matrix4.CreateRotationX(this._rotation.X);
         this.rotationYMatrix = Matrix4.CreateRotationY(this._rotation.Y);
         this.rotationZMatrix = Matrix4.CreateRotationZ(this._rotation.Z);
-
         this.createModelMatrix();
     }
     
@@ -72,11 +99,25 @@ export class Object3d {
 
     public update(_elapsedSeconds: number): void {}
 
-    public drawInfo(_elapsedSeconds: number): DrawInfo {
-        return {
-            modelMatrix: this._modelMatrix,
-            elementsCount: this.getIndexBuffer().length
-        }
+    public draw(_elapsedSeconds: number, programInfo: ProgramInfo): void {
+        const stride: number = VERTEX_LENGTH * FLOAT_SIZE;
+
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.objectBuffer);
+
+        this.gl.vertexAttribPointer(programInfo.attribLocations.vertexPosition, 3, this.gl.FLOAT, false, stride, 0);
+        this.gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
+        this.gl.vertexAttribPointer(programInfo.attribLocations.vertexNormal, 3, this.gl.FLOAT, false, stride, 3 * FLOAT_SIZE);
+        this.gl.enableVertexAttribArray(programInfo.attribLocations.vertexNormal);
+        this.gl.vertexAttribPointer(programInfo.attribLocations.vertexTexture, 2, this.gl.FLOAT, false, stride, 6 * FLOAT_SIZE);
+        this.gl.enableVertexAttribArray(programInfo.attribLocations.vertexTexture);
+
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+
+        this.gl.uniformMatrix4fv(programInfo.uniformLocations.modelMatrix, false, this.modelMatrix.ToArray());
+        this.gl.drawElements(this.gl.TRIANGLES, this.indexBufferArray.length, this.gl.UNSIGNED_SHORT, 0);
+
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, null);
     }
 
     protected getObjectBuffer(): number[] {
@@ -88,9 +129,9 @@ export class Object3d {
     }
 
     protected createModelMatrix(): Matrix4 {
-        const rotation: Matrix4 = Matrix4.Multiply(Matrix4.Multiply(this.rotationXMatrix, this.rotationYMatrix), this.rotationZMatrix);
-        this._modelMatrix = Matrix4.Multiply(rotation, this.translationMatrix);
-        
-        return this._modelMatrix;
+        const rotation: Matrix4 = Matrix4.Multiply(Matrix4.Multiply(this.rotationZMatrix, this.rotationYMatrix), this.rotationXMatrix);
+        this.modelMatrix = Matrix4.Multiply(rotation, this.translationMatrix);
+
+        return this.modelMatrix;
     }
 }

@@ -1,10 +1,3 @@
-import { Matrix4 } from "./math/Matrix4";
-
-export type DrawInfo = {
-    modelMatrix: Matrix4,
-    elementsCount: number,
-};
-
 export type shaderCodes = {
     vertex: string,
     fragment: string

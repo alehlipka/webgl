@@ -12,14 +12,14 @@ export class Cube extends Object3d {
     override update(_elapsedSeconds: number): void {
         this.rotation = new Vector3(
             this._rotation.X + _elapsedSeconds * 1,
-            this._rotation.Y + _elapsedSeconds * 0.5,
-            this._rotation.Z + _elapsedSeconds * 0.2);
+            this._rotation.Y + _elapsedSeconds * 1,
+            this._rotation.Z + _elapsedSeconds * 1);
     }
 
     override getObjectBuffer(): number[] {
-        const halfX = this.size.X / 2;
-        const halfY = this.size.Y / 2;
-        const halfZ = this.size.Z / 2;
+        const halfX: number = this.size.X / 2;
+        const halfY: number = this.size.Y / 2;
+        const halfZ: number = this.size.Z / 2;
 
         return [
             // Position             // Normal           // Texture

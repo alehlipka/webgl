@@ -1,11 +1,9 @@
-import {DrawInfo, perspectiveSettings, ProgramInfo} from "./types.ts";
+import {perspectiveSettings, ProgramInfo} from "./types.ts";
 import {Matrix4} from "./math/Matrix4.ts";
 import {Vector3} from "./math/Vector3.ts";
 import {Loader} from "./Loader.ts";
-import {Buffer} from "./Buffer.ts";
-import {FLOAT_SIZE, U_SHORT_SIZE, VERTEX_LENGTH} from "./constants.ts";
 
-import textureTest from "./../assets/textures/debug.jpg";
+import textureTest from "./../assets/textures/test.jpg";
 import {Object3d} from "../objects/Object3d.ts";
 
 export class Renderer {
@@ -42,7 +40,7 @@ export class Renderer {
 
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.gl.enable(this.gl.DEPTH_TEST);
-        // this.gl.enable(this.gl.CULL_FACE);
+        this.gl.enable(this.gl.CULL_FACE);
         this.gl.enable(this.gl.BLEND);
 
         this.gl.frontFace(this.gl.CCW);
@@ -64,32 +62,12 @@ export class Renderer {
 
     public initialize(): this {
         this.objects.forEach((object3d: Object3d): void => {
-            object3d.Initialize();
+            object3d.InitializeBuffers();
         });
-
-        Buffer.InitializeBuffers(this.gl);
-
-        const stride: number = VERTEX_LENGTH * FLOAT_SIZE;
-
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, Buffer.ObjectBuffer);
-
-        this.gl.vertexAttribPointer(this.programInfo.attribLocations.vertexPosition, 3, this.gl.FLOAT, false, stride, 0);
-        this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexPosition);
-
-        this.gl.vertexAttribPointer(this.programInfo.attribLocations.vertexNormal, 3, this.gl.FLOAT, false, stride, 3 * FLOAT_SIZE);
-        this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexNormal);
-
-        this.gl.vertexAttribPointer(this.programInfo.attribLocations.vertexTexture, 2, this.gl.FLOAT, false, stride, 6 * FLOAT_SIZE);
-        this.gl.enableVertexAttribArray(this.programInfo.attribLocations.vertexTexture);
-
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
 
         this.gl.activeTexture(this.gl.TEXTURE0);
         this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
         this.gl.uniform1i(this.programInfo.uniformLocations.uSampler, 0);
-
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, Buffer.IndexBuffer);
-
 
         return this;
     }
@@ -130,23 +108,9 @@ export class Renderer {
     private draw(elapsedSeconds: number): void {
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, Buffer.IndexBuffer);
-
-        let offset: number = 0;
         this.objects.forEach((object3d: Object3d): void => {
-            const drawInfo: DrawInfo = object3d.drawInfo(elapsedSeconds);
-            this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.modelMatrix, false, drawInfo.modelMatrix.ToArray());
-            this.gl.drawElements(
-                this.gl.TRIANGLES,
-                drawInfo.elementsCount,
-                this.gl.UNSIGNED_SHORT,
-                offset * U_SHORT_SIZE
-            );
-
-            offset += drawInfo.elementsCount;
+            object3d.draw(elapsedSeconds, this.programInfo);
         });
-
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, null);
     }
 
     private getDeltaTime(): number {
