@@ -29,7 +29,7 @@ export class Renderer {
         };
 
         this.projectionMatrix = Matrix4.Perspective(this.perspective.fov, this.perspective.aspect, this.perspective.near, this.perspective.far);
-        this.viewMatrix = Matrix4.LookAt(new Vector3(0, 0, 6), new Vector3(0, 0, 0), Vector3.UnixY());
+        this.viewMatrix = Matrix4.LookAt(new Vector3(0, 5, 15), new Vector3(0, 0, 0), Vector3.UnixY());
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);

@@ -15,6 +15,7 @@ import fragmentShaderCode from './assets/shaders/fragment.glsl';
 
 import debugTextureUrl from "./assets/textures/debug.png";
 import raccoonTextureUrl from "./assets/textures/raccoon.jpg";
+import {Terrain} from "./objects/Terrain.ts";
 
 const glContext: Context = new Context('gl-canvas');
 const gl: WebGL2RenderingContext = glContext.getContext();
@@ -25,10 +26,11 @@ const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
 renderer
+    .addObject(new Terrain(gl, new Vector3(0, -1.5, 0), debugTextureUrl, new Vector2(10,10)))
     .addObjects([
         new Cube(gl, new Vector3(-1, +1, 0), raccoonTextureUrl,  Vector3.One()),
         new Cube(gl, new Vector3(+1, +1, 0), raccoonTextureUrl, Vector3.One()),
-        new Plane(gl, new Vector3(0, +0, 0), debugTextureUrl, new Vector2(1,2)),
+        new Plane(gl, new Vector3(0, +0, 0), raccoonTextureUrl, new Vector2(2,2)),
         new Cube(gl, new Vector3(+1, -1, 0), raccoonTextureUrl, Vector3.One()),
         new Cube(gl, new Vector3(-1, -1, 0), raccoonTextureUrl, Vector3.One()),
     ])
