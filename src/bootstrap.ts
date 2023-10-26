@@ -12,6 +12,8 @@ import {Plane} from "./objects/Plane.ts";
 
 import vertexShaderCode from './assets/shaders/vertex.glsl';
 import fragmentShaderCode from './assets/shaders/fragment.glsl';
+import textureDebug from "./assets/textures/debug.jpg";
+import textureTest from "./assets/textures/test.jpg";
 
 const glContext: Context = new Context('gl-canvas');
 const gl: WebGL2RenderingContext = glContext.getContext();
@@ -23,18 +25,29 @@ const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
 const plane: Plane = new Plane(
     gl,
-    new Vector3(1, 1, 0),
+    new Vector3(-3, 2, -3),
+    textureTest,
+    new Vector2(6, 1)
+);
+
+const plane2: Plane = new Plane(
+    gl,
+    new Vector3(1, -1, 2),
+    textureTest,
     new Vector2(1, 1)
 );
+
 const cube: Cube = new Cube(
     gl,
     Vector3.Zero(),
+    textureDebug,
     new Vector3(1, 1, 1)
 );
 
 renderer
     .addObject(plane)
     .addObject(cube)
+    .addObject(plane2)
     .initialize()
     .run();
 

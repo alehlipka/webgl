@@ -2,6 +2,7 @@ import {Matrix4} from "../core/math/Matrix4.ts";
 import {Vector3} from "../core/math/Vector3.ts";
 import {ProgramInfo} from "../core/types.ts";
 import {FLOAT_SIZE, VERTEX_LENGTH} from "../core/constants.ts";
+import {Loader} from "../core/Loader.ts";
 
 export class Object3d {
     protected readonly gl: WebGL2RenderingContext;
@@ -21,8 +22,9 @@ export class Object3d {
     protected objectBuffer: WebGLBuffer;
     protected indexBuffer: WebGLBuffer;
 
+    private readonly texture: WebGLTexture;
 
-    constructor(gl: WebGL2RenderingContext, position: Vector3, rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
+    constructor(gl: WebGL2RenderingContext, position: Vector3, textureUrl: string, rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
         this.gl = gl;
 
         this._position = position;
@@ -48,6 +50,8 @@ export class Object3d {
 
         this.objectBuffer = objectBuffer;
         this.indexBuffer = indexBuffer;
+
+        this.texture = Loader.loadTexture(this.gl, textureUrl);
     }
 
     public InitializeBuffers(): void {
@@ -103,21 +107,24 @@ export class Object3d {
         const stride: number = VERTEX_LENGTH * FLOAT_SIZE;
 
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.objectBuffer);
-
         this.gl.vertexAttribPointer(programInfo.attribLocations.vertexPosition, 3, this.gl.FLOAT, false, stride, 0);
         this.gl.enableVertexAttribArray(programInfo.attribLocations.vertexPosition);
         this.gl.vertexAttribPointer(programInfo.attribLocations.vertexNormal, 3, this.gl.FLOAT, false, stride, 3 * FLOAT_SIZE);
         this.gl.enableVertexAttribArray(programInfo.attribLocations.vertexNormal);
         this.gl.vertexAttribPointer(programInfo.attribLocations.vertexTexture, 2, this.gl.FLOAT, false, stride, 6 * FLOAT_SIZE);
         this.gl.enableVertexAttribArray(programInfo.attribLocations.vertexTexture);
-
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, null);
-        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
 
+        this.gl.activeTexture(this.gl.TEXTURE0);
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
+        this.gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
+
+        this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.gl.uniformMatrix4fv(programInfo.uniformLocations.modelMatrix, false, this.modelMatrix.ToArray());
         this.gl.drawElements(this.gl.TRIANGLES, this.indexBufferArray.length, this.gl.UNSIGNED_SHORT, 0);
-
         this.gl.bindBuffer(this.gl.ELEMENT_ARRAY_BUFFER, null);
+
+        this.gl.bindTexture(this.gl.TEXTURE_2D, null);
     }
 
     protected getObjectBuffer(): number[] {

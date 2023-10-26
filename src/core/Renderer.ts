@@ -1,14 +1,10 @@
 import {perspectiveSettings, ProgramInfo} from "./types.ts";
 import {Matrix4} from "./math/Matrix4.ts";
 import {Vector3} from "./math/Vector3.ts";
-import {Loader} from "./Loader.ts";
-
-import textureTest from "./../assets/textures/test.jpg";
 import {Object3d} from "../objects/Object3d.ts";
 
 export class Renderer {
     private readonly gl: WebGL2RenderingContext;
-    private readonly texture: WebGLTexture;
 
     private programInfo: ProgramInfo;
     private then: number;
@@ -21,8 +17,6 @@ export class Renderer {
     constructor(gl: WebGL2RenderingContext, programInfo: ProgramInfo) {
         this.gl = gl;
         this.objects = [];
-
-        this.texture = Loader.loadTexture(this.gl, textureTest);
 
         this.programInfo = programInfo;
         this.then = 0;
@@ -40,7 +34,7 @@ export class Renderer {
 
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.gl.enable(this.gl.DEPTH_TEST);
-        this.gl.enable(this.gl.CULL_FACE);
+        // this.gl.enable(this.gl.CULL_FACE);
         this.gl.enable(this.gl.BLEND);
 
         this.gl.frontFace(this.gl.CCW);
@@ -64,10 +58,6 @@ export class Renderer {
         this.objects.forEach((object3d: Object3d): void => {
             object3d.InitializeBuffers();
         });
-
-        this.gl.activeTexture(this.gl.TEXTURE0);
-        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
-        this.gl.uniform1i(this.programInfo.uniformLocations.uSampler, 0);
 
         return this;
     }

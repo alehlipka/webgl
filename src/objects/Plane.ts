@@ -5,8 +5,8 @@ import {Object3d} from "./Object3d.ts";
 export class Plane extends Object3d {
     protected size: Vector2;
 
-    constructor(gl: WebGL2RenderingContext, position: Vector2, size: Vector2 = Vector2.One(), rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
-        super(gl, new Vector3(position.X, position.Y, 0), rotation, scale);
+    constructor(gl: WebGL2RenderingContext, position: Vector3, textureUrl: string, size: Vector2 = Vector2.One(), rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
+        super(gl, position, textureUrl, rotation, scale);
         this.size = size;
     }
 

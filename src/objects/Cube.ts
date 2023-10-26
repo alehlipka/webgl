@@ -4,8 +4,8 @@ import {Object3d} from "./Object3d.ts";
 export class Cube extends Object3d {
     protected size: Vector3;
 
-    constructor(gl: WebGL2RenderingContext, position: Vector3, size: Vector3 = Vector3.One(), rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
-        super(gl, position, rotation, scale);
+    constructor(gl: WebGL2RenderingContext, position: Vector3, textureUrl: string, size: Vector3 = Vector3.One(), rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
+        super(gl, position, textureUrl, rotation, scale);
         this.size = size;
     }
 
