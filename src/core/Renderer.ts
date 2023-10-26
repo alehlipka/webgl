@@ -34,7 +34,7 @@ export class Renderer {
 
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
         this.gl.enable(this.gl.DEPTH_TEST);
-        // this.gl.enable(this.gl.CULL_FACE);
+        this.gl.enable(this.gl.CULL_FACE);
         this.gl.enable(this.gl.BLEND);
 
         this.gl.frontFace(this.gl.CCW);

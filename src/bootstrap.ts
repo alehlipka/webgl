@@ -1,14 +1,12 @@
 import "./assets/styles/main.scss";
 
 import {ProgramInfo, shaderCodes} from "./core/types.ts";
-import {Vector2} from "./core/math/Vector2.ts";
 import {Vector3} from "./core/math/Vector3.ts";
 
 import {Context} from "./core/Context.ts";
 import {Renderer} from "./core/Renderer.ts";
 import {Shader} from "./core/Shader.ts";
 import {Cube} from "./objects/Cube.ts";
-import {Plane} from "./objects/Plane.ts";
 
 import vertexShaderCode from './assets/shaders/vertex.glsl';
 import fragmentShaderCode from './assets/shaders/fragment.glsl';
@@ -23,31 +21,22 @@ const shader: Shader = new Shader(gl, shaders);
 const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
-const plane: Plane = new Plane(
-    gl,
-    new Vector3(-3, 2, -3),
-    textureTest,
-    new Vector2(6, 1)
-);
-
-const plane2: Plane = new Plane(
-    gl,
-    new Vector3(1, -1, 2),
-    textureTest,
-    new Vector2(1, 1)
-);
-
-const cube: Cube = new Cube(
-    gl,
-    Vector3.Zero(),
-    textureDebug,
-    new Vector3(1, 1, 1)
-);
-
 renderer
-    .addObject(plane)
-    .addObject(cube)
-    .addObject(plane2)
+    .addObject(
+        new Cube(gl, new Vector3(-1, 1, 0), textureTest,  Vector3.One())
+    )
+    .addObject(
+        new Cube(gl, new Vector3(1, 1, 0), textureTest, Vector3.One())
+    )
+    .addObject(
+        new Cube(gl, Vector3.Zero(), textureDebug, Vector3.One())
+    )
+    .addObject(
+        new Cube(gl, new Vector3(1, -1, 0), textureTest, Vector3.One())
+    )
+    .addObject(
+        new Cube(gl, new Vector3(-1, -1, 0), textureTest, Vector3.One())
+    )
     .initialize()
     .run();
 
