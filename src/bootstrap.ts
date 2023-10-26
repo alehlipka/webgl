@@ -14,7 +14,7 @@ import vertexShaderCode from './assets/shaders/vertex.glsl';
 import fragmentShaderCode from './assets/shaders/fragment.glsl';
 
 import debugTextureUrl from "./assets/textures/debug.png";
-import racunTextureUrl from "./assets/textures/racun.jpg";
+import raccoonTextureUrl from "./assets/textures/raccoon.jpg";
 
 const glContext: Context = new Context('gl-canvas');
 const gl: WebGL2RenderingContext = glContext.getContext();
@@ -26,11 +26,11 @@ const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
 renderer
     .addObjects([
-        new Cube(gl, new Vector3(-1, +1, 0), racunTextureUrl,  Vector3.One()),
-        new Cube(gl, new Vector3(+1, +1, 0), racunTextureUrl, Vector3.One()),
+        new Cube(gl, new Vector3(-1, +1, 0), raccoonTextureUrl,  Vector3.One()),
+        new Cube(gl, new Vector3(+1, +1, 0), raccoonTextureUrl, Vector3.One()),
         new Plane(gl, new Vector3(0, +0, 0), debugTextureUrl, new Vector2(1,2)),
-        new Cube(gl, new Vector3(+1, -1, 0), racunTextureUrl, Vector3.One()),
-        new Cube(gl, new Vector3(-1, -1, 0), racunTextureUrl, Vector3.One()),
+        new Cube(gl, new Vector3(+1, -1, 0), raccoonTextureUrl, Vector3.One()),
+        new Cube(gl, new Vector3(-1, -1, 0), raccoonTextureUrl, Vector3.One()),
     ])
     .initialize()
     .run();
