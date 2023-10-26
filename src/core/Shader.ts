@@ -1,11 +1,11 @@
 import {ProgramInfo, shaderCodes} from "./types.ts";
 
 export class Shader {
-    private readonly gl: WebGLRenderingContext;
+    private readonly gl: WebGL2RenderingContext;
     private readonly shaderCodes: shaderCodes;
     private readonly programInfo: ProgramInfo;
 
-    constructor(gl: WebGLRenderingContext, shaders: shaderCodes) {
+    constructor(gl: WebGL2RenderingContext, shaders: shaderCodes) {
         this.gl = gl;
         this.shaderCodes = shaders;
         this.programInfo = this.initializeProgramInfo();
@@ -49,7 +49,7 @@ export class Shader {
         };
     }
 
-    private loadShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader {
+    private loadShader(gl: WebGL2RenderingContext, type: number, source: string): WebGLShader {
         const shader: WebGLShader | null = gl.createShader(type);
         if (shader === null) throw new Error("Shader creation error");
         gl.shaderSource(shader, source);

@@ -10,17 +10,17 @@ export type shaderCodes = {
     fragment: string
 };
 
-export type ProgramInfo = {
-    program: WebGLProgram,
-    attribLocations: AttributeLocations,
-    uniformLocations: UniformLocations,
-};
-
 export type perspectiveSettings = {
     aspect: number,
     fov: number,
     near: number,
     far: number,
+};
+
+export type ProgramInfo = {
+    program: WebGLProgram,
+    attribLocations: AttributeLocations,
+    uniformLocations: UniformLocations,
 };
 
 type AttributeLocations = {

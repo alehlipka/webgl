@@ -4,7 +4,7 @@ import {Buffer} from "../core/Buffer.ts";
 import { DrawInfo } from "../core/types.ts";
 
 export class Object3d {
-    protected readonly gl: WebGLRenderingContext;
+    protected readonly gl: WebGL2RenderingContext;
 
     protected rotationXMatrix: Matrix4;
     protected rotationYMatrix: Matrix4;
@@ -16,7 +16,7 @@ export class Object3d {
     protected _scale: Vector3;
     protected _modelMatrix: Matrix4;
 
-    constructor(gl: WebGLRenderingContext, position: Vector3, rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
+    constructor(gl: WebGL2RenderingContext, position: Vector3, rotation: Vector3 = Vector3.Zero(), scale: Vector3 = Vector3.One()) {
         this.gl = gl;
 
         this._position = position;

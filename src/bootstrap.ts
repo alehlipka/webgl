@@ -13,16 +13,27 @@ import vertexShaderCode from './assets/shaders/vertex.glsl';
 import fragmentShaderCode from './assets/shaders/fragment.glsl';
 
 const glContext: Context = new Context('gl-canvas');
-const gl: WebGLRenderingContext = glContext.getContext();
+const gl: WebGL2RenderingContext = glContext.getContext();
 
 const shaders: shaderCodes = {vertex: vertexShaderCode, fragment: fragmentShaderCode};
 const shader: Shader = new Shader(gl, shaders);
 const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
+const plane: Plane = new Plane(
+    gl,
+    new Vector3(0, 0, 0),
+    new Vector3(1.5, 1.5, 0.5)
+);
+const cube: Cube = new Cube(
+    gl,
+    Vector3.Zero(),
+    new Vector3(1, 1, 1)
+);
+
 renderer
-    .addObject(new Plane(gl, new Vector3(0, 0, 0), new Vector3(1.5, 1.5, 0.5)))
-    .addObject(new Cube(gl, Vector3.Zero(), new Vector3(1, 1, 1)))
+    .addObject(plane)
+    .addObject(cube)
     .initialize()
     .run();
 

@@ -4,7 +4,7 @@ export class Context {
     /**
      * Manages the WebGL context and handles events related to the canvas element.
      */
-    private readonly gl: WebGLRenderingContext;
+    private readonly gl: WebGL2RenderingContext;
 
     private readonly WIDTH_OFFSET: number = 20;
     private readonly HEIGHT_OFFSET: number = 140;
@@ -19,7 +19,7 @@ export class Context {
         const canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(canvas_id);
         if (canvasElement === null) throw Error(`Canvas with ID "${canvas_id}" not found`);
 
-        const context: WebGLRenderingContext | null = canvasElement.getContext("webgl");
+        const context: WebGL2RenderingContext | null = canvasElement.getContext("webgl2");
         if (context === null) throw Error('Context initialization fail');
         this.gl = context;
     }
@@ -28,7 +28,7 @@ export class Context {
      * Returns the WebGL rendering context.
      * @returns The WebGL rendering context.
      */
-    public getContext(): WebGLRenderingContext {
+    public getContext(): WebGL2RenderingContext {
         return this.gl;
     }
 

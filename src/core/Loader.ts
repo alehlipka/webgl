@@ -1,5 +1,5 @@
 export class Loader {
-    public static loadTexture(gl: WebGLRenderingContext, url: string): WebGLTexture {
+    public static loadTexture(gl: WebGL2RenderingContext, url: string): WebGLTexture {
         const texture: WebGLTexture | null = gl.createTexture();
         if (texture === null) throw new Error("Texture creation error");
 

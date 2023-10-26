@@ -5,7 +5,7 @@ export class Buffer {
     public static ObjectBuffer: WebGLBuffer|null;
     public static IndexBuffer: WebGLBuffer|null;
 
-    public static InitializeBuffers(gl: WebGLRenderingContext): void {
+    public static InitializeBuffers(gl: WebGL2RenderingContext): void {
         this.ObjectBuffer = gl.createBuffer();
         this.IndexBuffer = gl.createBuffer();
 
