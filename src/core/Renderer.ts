@@ -33,6 +33,7 @@ export class Renderer {
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 
         this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.enable(this.gl.BLEND);
@@ -50,6 +51,14 @@ export class Renderer {
 
     public addObject(object3d: Object3d): this {
         this.objects.push(object3d);
+
+        return this;
+    }
+
+    public addObjects(objects3d: Object3d[]): this {
+        objects3d.forEach((object3d: Object3d): void => {
+            this.objects.push(object3d);
+        });
 
         return this;
     }

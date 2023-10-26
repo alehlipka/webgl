@@ -10,6 +10,7 @@ import {Cube} from "./objects/Cube.ts";
 
 import vertexShaderCode from './assets/shaders/vertex.glsl';
 import fragmentShaderCode from './assets/shaders/fragment.glsl';
+
 import textureDebug from "./assets/textures/debug.jpg";
 import textureTest from "./assets/textures/test.jpg";
 
@@ -22,21 +23,13 @@ const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo);
 renderer
-    .addObject(
-        new Cube(gl, new Vector3(-1, 1, 0), textureTest,  Vector3.One())
-    )
-    .addObject(
-        new Cube(gl, new Vector3(1, 1, 0), textureTest, Vector3.One())
-    )
-    .addObject(
-        new Cube(gl, Vector3.Zero(), textureDebug, Vector3.One())
-    )
-    .addObject(
-        new Cube(gl, new Vector3(1, -1, 0), textureTest, Vector3.One())
-    )
-    .addObject(
-        new Cube(gl, new Vector3(-1, -1, 0), textureTest, Vector3.One())
-    )
+    .addObjects([
+        new Cube(gl, new Vector3(-1, +1, 0), textureTest,  Vector3.One()),
+        new Cube(gl, new Vector3(+1, +1, 0), textureTest, Vector3.One()),
+        new Cube(gl, new Vector3(+0, +0, 0), textureDebug, Vector3.One()),
+        new Cube(gl, new Vector3(+1, -1, 0), textureTest, Vector3.One()),
+        new Cube(gl, new Vector3(-1, -1, 0), textureTest, Vector3.One()),
+    ])
     .initialize()
     .run();
 
