@@ -14,7 +14,7 @@ export class Loader {
             0,
             gl.RGBA,
             gl.UNSIGNED_BYTE,
-            new Uint8Array([0, 0, 255, 255]),
+            new Uint8Array([0, 0, 0, 255]),
         );
 
         const image: HTMLImageElement = new Image();
@@ -28,6 +28,8 @@ export class Loader {
                 gl.UNSIGNED_BYTE,
                 image,
             );
+
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
             if (this.isPowerOfTwo(image.width) && this.isPowerOfTwo(image.height)) {
                 gl.generateMipmap(gl.TEXTURE_2D);

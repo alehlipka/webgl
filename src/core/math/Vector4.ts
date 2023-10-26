@@ -6,30 +6,30 @@ export class Vector4 {
     public Z: number;
     public W: number;
 
-    constructor(x: number, y: number, z: number, w: number) {
+    constructor(x: number, y?: number, z?: number, w?: number) {
         this.X = x;
-        this.Y = y;
-        this.Z = z;
-        this.W = w;
+        this.Y = y ?? x;
+        this.Z = z ?? x;
+        this.W = w ?? x;
     }
 
-    private static readonly unixX: Vector4 = new Vector4(1, 0, 0, 0);
-    private static readonly unixY: Vector4 = new Vector4(0, 1, 0, 0);
-    private static readonly unixZ: Vector4 = new Vector4(0, 0, 1, 0);
-    private static readonly unixW: Vector4 = new Vector4(0, 0, 0, 1);
+    private static readonly unitX: Vector4 = new Vector4(1, 0, 0, 0);
+    private static readonly unitY: Vector4 = new Vector4(0, 1, 0, 0);
+    private static readonly unitZ: Vector4 = new Vector4(0, 0, 1, 0);
+    private static readonly unitW: Vector4 = new Vector4(0, 0, 0, 1);
     private static readonly zero: Vector4 = new Vector4(0, 0, 0, 0);
 
-    public static UnixX(): Vector4 {
-        return _.cloneDeep<Vector4>(Vector4.unixX);
+    public static UnitX(): Vector4 {
+        return _.cloneDeep<Vector4>(Vector4.unitX);
     }
-    public static UnixY(): Vector4 {
-        return _.cloneDeep<Vector4>(Vector4.unixY);
+    public static UnitY(): Vector4 {
+        return _.cloneDeep<Vector4>(Vector4.unitY);
     }
-    public static UnixZ(): Vector4 {
-        return _.cloneDeep<Vector4>(Vector4.unixZ);
+    public static UnitZ(): Vector4 {
+        return _.cloneDeep<Vector4>(Vector4.unitZ);
     }
-    public static UnixW(): Vector4 {
-        return _.cloneDeep<Vector4>(Vector4.unixW);
+    public static UnitW(): Vector4 {
+        return _.cloneDeep<Vector4>(Vector4.unitW);
     }
     public static Zero(): Vector4 {
         return _.cloneDeep<Vector4>(Vector4.zero);

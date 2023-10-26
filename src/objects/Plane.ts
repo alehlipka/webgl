@@ -24,10 +24,10 @@ export class Plane extends Object3d {
 
         return [
             // Position             // Normal           // Texture
-            -halfX, 0, -halfY, +0.0, +1.0, +0.0,   0.0, 1.0,   // Top face
-            -halfX, 0, +halfY, +0.0, +1.0, +0.0,   0.0, 0.0,   // Top face
-            +halfX, 0, +halfY, +0.0, +1.0, +0.0,   1.0, 0.0,   // Top face
-            +halfX, 0, -halfY, +0.0, +1.0, +0.0,   1.0, 1.0,   // Top face
+            -halfX, 0, -halfY, +0.0, +1.0, +0.0,   0.0, 0.0,   // Top face
+            -halfX, 0, +halfY, +0.0, +1.0, +0.0,   0.0, 1.0,   // Top face
+            +halfX, 0, +halfY, +0.0, +1.0, +0.0,   1.0, 1.0,   // Top face
+            +halfX, 0, -halfY, +0.0, +1.0, +0.0,   1.0, 0.0,   // Top face
         ];
     }
 

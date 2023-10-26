@@ -26,7 +26,7 @@ export class Matrix4 {
         );
     }
 
-    private static readonly identity: Matrix4 = new Matrix4(Vector4.UnixX(), Vector4.UnixY(), Vector4.UnixZ(), Vector4.UnixW());
+    private static readonly identity: Matrix4 = new Matrix4(Vector4.UnitX(), Vector4.UnitY(), Vector4.UnitZ(), Vector4.UnitW());
     private static readonly zero: Matrix4 = new Matrix4(Vector4.Zero(), Vector4.Zero(), Vector4.Zero(), Vector4.Zero());
 
     public static Identity(): Matrix4 {
