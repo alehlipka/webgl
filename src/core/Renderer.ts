@@ -3,102 +3,117 @@ import { Object3d } from "./../objects/Object3d.ts";
 import { Camera } from "./Camera.ts";
 
 export class Renderer {
-    private readonly gl: WebGL2RenderingContext;
+  private readonly gl: WebGL2RenderingContext;
 
-    private programInfo: ProgramInfo;
-    private then: number;
+  private programInfo: ProgramInfo;
+  private then: number;
 
-    private objects: Object3d[];
-    private camera: Camera;
+  private objects: Object3d[];
+  private camera: Camera;
 
-    constructor(gl: WebGL2RenderingContext, programInfo: ProgramInfo, camera: Camera) {
-        this.gl = gl;
-        this.programInfo = programInfo;
-        this.camera = camera;
+  constructor(
+    gl: WebGL2RenderingContext,
+    programInfo: ProgramInfo,
+    camera: Camera,
+  ) {
+    this.gl = gl;
+    this.programInfo = programInfo;
+    this.camera = camera;
 
-        this.objects = [];
-        this.then = 0;
+    this.objects = [];
+    this.then = 0;
 
-        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 
-        this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
-        this.gl.enable(this.gl.DEPTH_TEST);
-        this.gl.enable(this.gl.CULL_FACE);
-        this.gl.enable(this.gl.BLEND);
+    this.gl.enable(this.gl.DEPTH_TEST);
+    this.gl.enable(this.gl.CULL_FACE);
+    this.gl.enable(this.gl.BLEND);
 
-        this.gl.frontFace(this.gl.CCW);
-        this.gl.cullFace(this.gl.BACK);
-        this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+    this.gl.frontFace(this.gl.CCW);
+    this.gl.cullFace(this.gl.BACK);
+    this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
-        this.gl.useProgram(this.programInfo.program);
-        
-    }
+    this.gl.useProgram(this.programInfo.program);
+  }
 
-    public addObject(object3d: Object3d): this {
-        this.objects.push(object3d);
+  public addObject(object3d: Object3d): this {
+    this.objects.push(object3d);
 
-        return this;
-    }
+    return this;
+  }
 
-    public addObjects(objects3d: Object3d[]): this {
-        objects3d.forEach((object3d: Object3d): void => {
-            this.objects.push(object3d);
-        });
+  public addObjects(objects3d: Object3d[]): this {
+    objects3d.forEach((object3d: Object3d): void => {
+      this.objects.push(object3d);
+    });
 
-        return this;
-    }
+    return this;
+  }
 
-    public initialize(): this {
-        this.objects.forEach((object3d: Object3d): void => {
-            object3d.InitializeBuffers();
-        });
+  public initialize(): this {
+    this.objects.forEach((object3d: Object3d): void => {
+      object3d.InitializeBuffers();
+    });
 
-        return this;
-    }
+    return this;
+  }
 
-    public run = (): void => {
-        const delta: number = this.getDeltaTime();
+  public run = (): void => {
+    const delta: number = this.getDeltaTime();
 
-        this.update(delta);
-        this.draw(delta);
+    this.update(delta);
+    this.draw(delta);
 
-        requestAnimationFrame(this.run);
-    }
+    requestAnimationFrame(this.run);
+  };
 
-    public resize(width: number, height: number): void {
-        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+  public resize(width: number, height: number): void {
+    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
 
-        this.camera.resize(width, height);
-        this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.projectionMatrix, false, this.camera.getProjectionMatrix().ToArray());
+    this.camera.resize(width, height);
+    this.gl.uniformMatrix4fv(
+      this.programInfo.uniformLocations.projectionMatrix,
+      false,
+      this.camera.getProjectionMatrix().ToArray(),
+    );
 
-        this.objects.forEach((object3d: Object3d): void => {
-            object3d.resize(width, height);
-        });
-    }
+    this.objects.forEach((object3d: Object3d): void => {
+      object3d.resize(width, height);
+    });
+  }
 
-    private update(elapsedSeconds: number): void {
-        this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.viewMatrix, false, this.camera.getViewMatrix().ToArray());
-        this.gl.uniformMatrix4fv(this.programInfo.uniformLocations.projectionMatrix, false, this.camera.getProjectionMatrix().ToArray());
-        
-        this.objects.forEach((object3d: Object3d): void => {
-            object3d.update(elapsedSeconds);
-        });
-    }
+  private update(elapsedSeconds: number): void {
+    this.gl.uniformMatrix4fv(
+      this.programInfo.uniformLocations.viewMatrix,
+      false,
+      this.camera.getViewMatrix().ToArray(),
+    );
+    this.gl.uniformMatrix4fv(
+      this.programInfo.uniformLocations.projectionMatrix,
+      false,
+      this.camera.getProjectionMatrix().ToArray(),
+    );
 
-    private draw(elapsedSeconds: number): void {
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+    this.objects.forEach((object3d: Object3d): void => {
+      object3d.update(elapsedSeconds);
+    });
+  }
 
-        this.objects.forEach((object3d: Object3d): void => {
-            object3d.draw(elapsedSeconds, this.programInfo);
-        });
-    }
+  private draw(elapsedSeconds: number): void {
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-    private getDeltaTime(): number {
-        const now: number = performance.now() * 0.001; // convert to seconds
-        const deltaTime: number = now - this.then;
-        this.then = now;
+    this.objects.forEach((object3d: Object3d): void => {
+      object3d.draw(elapsedSeconds, this.programInfo);
+    });
+  }
 
-        return deltaTime;
-    }
+  private getDeltaTime(): number {
+    const now: number = performance.now() * 0.001; // convert to seconds
+    const deltaTime: number = now - this.then;
+    this.then = now;
+
+    return deltaTime;
+  }
 }

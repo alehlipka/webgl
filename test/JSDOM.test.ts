@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test } from "vitest";
 
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
@@ -16,12 +16,11 @@ const html = `
 </html>
 `;
 
-describe('JSDOM', () => {
-    test('query selector', () => {
-        const dom = new JSDOM(html);
-        const text = dom.window.document.querySelector("p").textContent;
-        
-        expect(text).toBe("test");
-    });
-});
+describe("JSDOM", () => {
+  test("query selector", () => {
+    const dom = new JSDOM(html);
+    const text = dom.window.document.querySelector("p").textContent;
 
+    expect(text).toBe("test");
+  });
+});
