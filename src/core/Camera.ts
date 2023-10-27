@@ -98,8 +98,8 @@ export class Camera {
         this.firstMove = false;
       } else {
         // Calculate the offset of the mouse position
-        var deltaX = event.clientX - this.lastPosition.X;
-        var deltaY = event.clientY - this.lastPosition.Y;
+        const deltaX: number = event.clientX - this.lastPosition.X;
+        const deltaY: number = event.clientY - this.lastPosition.Y;
         this.lastPosition = new Vector2(event.clientX, event.clientY);
 
         // Apply the camera pitch and yaw (we clamp the pitch in the camera class)

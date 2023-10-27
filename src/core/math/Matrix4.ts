@@ -1,5 +1,5 @@
-import { Vector4 } from "./Vector4.ts";
-import { Vector3 } from "./Vector3.ts";
+import {Vector4} from "./Vector4.ts";
+import {Vector3} from "./Vector3.ts";
 import _ from "lodash";
 
 export class Matrix4 {
@@ -179,7 +179,7 @@ export class Matrix4 {
     const x: Vector3 = Vector3.Normalize(Vector3.Cross(up, z));
     const y: Vector3 = Vector3.Normalize(Vector3.Cross(z, x));
 
-    let result: Matrix4 = Matrix4.Zero();
+    const result: Matrix4 = Matrix4.Zero();
     result.Row0.X = x.X;
     result.Row0.Y = y.X;
     result.Row0.Z = z.X;
@@ -201,7 +201,7 @@ export class Matrix4 {
   }
 
   public static CreateTranslation(vector: Vector3): Matrix4 {
-    let result: Matrix4 = Matrix4.Identity();
+    const result: Matrix4 = Matrix4.Identity();
     result.Row3.X = vector.X;
     result.Row3.Y = vector.Y;
     result.Row3.Z = vector.Z;
@@ -213,7 +213,7 @@ export class Matrix4 {
     const cos: number = Math.cos(angle);
     const sin: number = Math.sin(angle);
 
-    let result: Matrix4 = Matrix4.Identity();
+    const result: Matrix4 = Matrix4.Identity();
     result.Row1.Y = cos;
     result.Row1.Z = sin;
     result.Row2.Y = -sin;
@@ -226,7 +226,7 @@ export class Matrix4 {
     const cos: number = Math.cos(angle);
     const sin: number = Math.sin(angle);
 
-    let result: Matrix4 = Matrix4.Identity();
+    const result: Matrix4 = Matrix4.Identity();
     result.Row0.X = cos;
     result.Row0.Z = -sin;
     result.Row2.X = sin;
@@ -239,7 +239,7 @@ export class Matrix4 {
     const cos: number = Math.cos(angle);
     const sin: number = Math.sin(angle);
 
-    let result: Matrix4 = Matrix4.Identity();
+    const result: Matrix4 = Matrix4.Identity();
     result.Row0.X = cos;
     result.Row0.Y = sin;
     result.Row1.X = -sin;
@@ -249,8 +249,8 @@ export class Matrix4 {
   }
 
   public static Multiply(l: Matrix4, r: Matrix4): Matrix4 {
-    let left = _.cloneDeep(l);
-    let right = _.cloneDeep(r);
+    const left: Matrix4 = _.cloneDeep(l);
+    const right: Matrix4 = _.cloneDeep(r);
 
     const leftM11: number = left.Row0.X;
     const leftM12: number = left.Row0.Y;
@@ -285,7 +285,7 @@ export class Matrix4 {
     const rightM43: number = right.Row3.Z;
     const rightM44: number = right.Row3.W;
 
-    let result: Matrix4 = Matrix4.Identity();
+    const result: Matrix4 = Matrix4.Identity();
     result.Row0.X =
       leftM11 * rightM11 +
       leftM12 * rightM21 +
@@ -371,7 +371,7 @@ export class Matrix4 {
   }
 
   public static Invese(m: Matrix4): Matrix4 {
-    let mat = _.cloneDeep(m);
+    const mat: Matrix4 = _.cloneDeep(m);
 
     const a00: number = mat.Row0.X;
     const a01: number = mat.Row0.Y;
@@ -408,38 +408,36 @@ export class Matrix4 {
     if (det == 0) throw new Error("Inverse error");
     det = 1.0 / det;
 
-    let result: Matrix4 = new Matrix4(
-      new Vector4(
-        (a11 * b11 - a12 * b10 + a13 * b09) * det,
-        (a02 * b10 - a01 * b11 - a03 * b09) * det,
-        (a31 * b05 - a32 * b04 + a33 * b03) * det,
-        (a22 * b04 - a21 * b05 - a23 * b03) * det,
-      ),
-      new Vector4(
-        (a12 * b08 - a10 * b11 - a13 * b07) * det,
-        (a00 * b11 - a02 * b08 + a03 * b07) * det,
-        (a32 * b02 - a30 * b05 - a33 * b01) * det,
-        (a20 * b05 - a22 * b02 + a23 * b01) * det,
-      ),
-      new Vector4(
-        (a10 * b10 - a11 * b08 + a13 * b06) * det,
-        (a01 * b08 - a00 * b10 - a03 * b06) * det,
-        (a30 * b04 - a31 * b02 + a33 * b00) * det,
-        (a21 * b02 - a20 * b04 - a23 * b00) * det,
-      ),
-      new Vector4(
-        (a11 * b07 - a10 * b09 - a12 * b06) * det,
-        (a00 * b09 - a01 * b07 + a02 * b06) * det,
-        (a31 * b01 - a30 * b03 - a32 * b00) * det,
-        (a20 * b03 - a21 * b01 + a22 * b00) * det,
-      ),
+    return new Matrix4(
+        new Vector4(
+            (a11 * b11 - a12 * b10 + a13 * b09) * det,
+            (a02 * b10 - a01 * b11 - a03 * b09) * det,
+            (a31 * b05 - a32 * b04 + a33 * b03) * det,
+            (a22 * b04 - a21 * b05 - a23 * b03) * det,
+        ),
+        new Vector4(
+            (a12 * b08 - a10 * b11 - a13 * b07) * det,
+            (a00 * b11 - a02 * b08 + a03 * b07) * det,
+            (a32 * b02 - a30 * b05 - a33 * b01) * det,
+            (a20 * b05 - a22 * b02 + a23 * b01) * det,
+        ),
+        new Vector4(
+            (a10 * b10 - a11 * b08 + a13 * b06) * det,
+            (a01 * b08 - a00 * b10 - a03 * b06) * det,
+            (a30 * b04 - a31 * b02 + a33 * b00) * det,
+            (a21 * b02 - a20 * b04 - a23 * b00) * det,
+        ),
+        new Vector4(
+            (a11 * b07 - a10 * b09 - a12 * b06) * det,
+            (a00 * b09 - a01 * b07 + a02 * b06) * det,
+            (a31 * b01 - a30 * b03 - a32 * b00) * det,
+            (a20 * b03 - a21 * b01 + a22 * b00) * det,
+        ),
     );
-
-    return result;
   }
 
   public static Transpose(m: Matrix4): Matrix4 {
-    let matrix = _.cloneDeep(m);
+    const matrix: Matrix4 = _.cloneDeep(m);
     return new Matrix4(
       matrix.Column0(),
       matrix.Column1(),

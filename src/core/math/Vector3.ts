@@ -15,8 +15,8 @@ export class Vector3 {
   private static readonly unitX: Vector3 = new Vector3(1, 0, 0);
   private static readonly unitY: Vector3 = new Vector3(0, 1, 0);
   private static readonly unitZ: Vector3 = new Vector3(0, 0, 1);
-  private static readonly zero: Vector3 = new Vector3(0, 0, 0);
-  private static readonly one: Vector3 = new Vector3(1, 1, 1);
+  private static readonly zero: Vector3 = new Vector3(0);
+  private static readonly one: Vector3 = new Vector3(1);
 
   public static UnitX(): Vector3 {
     return _.cloneDeep<Vector3>(Vector3.unitX);
@@ -36,10 +36,6 @@ export class Vector3 {
 
   public static One(): Vector3 {
     return _.cloneDeep<Vector3>(Vector3.one);
-  }
-
-  public ToArray(): number[] {
-    return [this.X, this.Y, this.Z];
   }
 
   public Length(): number {
@@ -88,11 +84,12 @@ export class Vector3 {
   }
 
   public static Transform(vec: Vector3, mat: Matrix4): Vector3 {
-    const X = vec.X * mat.Row0.X + vec.Y * mat.Row1.X + vec.Z * mat.Row2.X;
-
-    const Y = vec.X * mat.Row0.Y + vec.Y * mat.Row1.Y + vec.Z * mat.Row2.Y;
-
-    const Z = vec.X * mat.Row0.Z + vec.Y * mat.Row1.Z + vec.Z * mat.Row2.Z;
+    const X: number =
+      vec.X * mat.Row0.X + vec.Y * mat.Row1.X + vec.Z * mat.Row2.X;
+    const Y: number =
+      vec.X * mat.Row0.Y + vec.Y * mat.Row1.Y + vec.Z * mat.Row2.Y;
+    const Z: number =
+      vec.X * mat.Row0.Z + vec.Y * mat.Row1.Z + vec.Z * mat.Row2.Z;
 
     return new Vector3(X, Y, Z);
   }

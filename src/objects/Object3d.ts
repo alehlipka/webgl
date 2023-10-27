@@ -114,8 +114,10 @@ export class Object3d {
     this._scale = value;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public resize(_width: number, _height: number): void {}
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public update(_elapsedSeconds: number): void {}
 
   public draw(_elapsedSeconds: number, programInfo: ProgramInfo): void {

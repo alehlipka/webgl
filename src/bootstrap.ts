@@ -40,14 +40,14 @@ const camera: Camera = new Camera(
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
 renderer
   .addObject(
-    new Terrain(gl, new Vector3(0, -3, 0), debugTextureUrl, new Vector2(10)),
+    new Terrain(gl, new Vector3(0, -3, 0), <string>debugTextureUrl, new Vector2(10)),
   )
   .addObjects([
-    new Cube(gl, new Vector3(-1, +1, 0), raccoonTextureUrl, Vector3.One()),
-    new Cube(gl, new Vector3(+1, +1, 0), raccoonTextureUrl, Vector3.One()),
-    new Plane(gl, new Vector3(0, +0, 0), raccoonTextureUrl, new Vector2(5)),
-    new Cube(gl, new Vector3(+1, -1, 0), raccoonTextureUrl, Vector3.One()),
-    new Cube(gl, new Vector3(-1, -1, 0), raccoonTextureUrl, Vector3.One()),
+    new Cube(gl, new Vector3(-1, +1, 0), <string>raccoonTextureUrl, Vector3.One()),
+    new Cube(gl, new Vector3(+1, +1, 0), <string>raccoonTextureUrl, Vector3.One()),
+    new Plane(gl, new Vector3(0, +0, 0), <string>raccoonTextureUrl, new Vector2(5)),
+    new Cube(gl, new Vector3(+1, -1, 0), <string>raccoonTextureUrl, Vector3.One()),
+    new Cube(gl, new Vector3(-1, -1, 0), <string>raccoonTextureUrl, Vector3.One()),
   ])
   .initialize()
   .run();
@@ -58,9 +58,5 @@ window.addEventListener("load", (): void => {
 });
 window.addEventListener("resize", (): void => {
   glContext.OnResize(window.innerWidth, window.innerHeight);
-  renderer.resize(window.innerWidth, window.innerHeight);
-});
-window.addEventListener("dblclick", (): void => {
-  glContext.OnFullscreen(window.innerWidth, window.innerHeight);
   renderer.resize(window.innerWidth, window.innerHeight);
 });

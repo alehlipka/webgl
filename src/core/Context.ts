@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 export class Context {
   /**
    * Manages the WebGL context and handles events related to the canvas element.
@@ -55,18 +53,5 @@ export class Context {
   public OnResize(width: number, height: number): void {
     this.gl.canvas.width = width - this.WIDTH_OFFSET;
     this.gl.canvas.height = height - this.HEIGHT_OFFSET;
-  }
-
-  /**
-   * Toggles fullscreen mode and resizes the canvas based on the specified width and height.
-   * @param width - The width of the window.
-   * @param height - The height of the window.
-   */
-  public OnFullscreen(width: number, height: number): void {
-    let elem: HTMLCanvasElement = <HTMLCanvasElement>this.gl.canvas;
-    document.fullscreenElement
-      ? document.exitFullscreen()
-      : elem.requestFullscreen();
-    this.OnResize(width, height);
   }
 }
