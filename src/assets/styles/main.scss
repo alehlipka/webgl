@@ -3,94 +3,94 @@
 @import "sizes";
 
 body {
-  color: $font_color_dark;
-  background: $background_color;
+	color: $font_color_dark;
+	background: $background_color;
 }
 
 #preloader {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: $background_color;
-  color: $font_color_light;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: $background_color;
+	color: $font_color_light;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 
-  &.loaded {
-    display: none;
-  }
+	&.loaded {
+		display: none;
+	}
 
-  .progress-ring {
-    height: 100px;
-    width: 100px;
-    border: 10px solid $background_color;
-    border-right-color: $ramonki_color;
-    border-left-color: $ramonki_color;
-    border-radius: 50%;
-    animation: rotate 0.5s linear infinite;
+	.progress-ring {
+		height: 100px;
+		width: 100px;
+		border: 10px solid $background_color;
+		border-right-color: $ramonki_color;
+		border-left-color: $ramonki_color;
+		border-radius: 50%;
+		animation: rotate 0.5s linear infinite;
 
-    @keyframes rotate {
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-  }
+		@keyframes rotate {
+			100% {
+				transform: rotate(360deg);
+			}
+		}
+	}
 
-  .progress-text {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 12px;
-    color: $ramonki_color;
-    padding-top: 20px;
-    text-align: center;
-  }
+	.progress-text {
+		text-transform: uppercase;
+		font-weight: bold;
+		font-size: 12px;
+		color: $ramonki_color;
+		padding-top: 20px;
+		text-align: center;
+	}
 }
 
 #app {
-  display: none;
-  flex-direction: column;
-  height: 100%;
+	display: none;
+	flex-direction: column;
+	height: 100%;
 
-  &.loaded {
-    display: flex;
-  }
+	&.loaded {
+		display: flex;
+	}
 
-  .content {
-    margin: 0 auto;
-  }
+	.content {
+		margin: 0 auto;
+	}
 
-  header {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    height: 40px;
+	header {
+		align-items: center;
+		justify-content: center;
+		display: flex;
+		height: 40px;
 
-    font-weight: bold;
-    font-size: 12px;
-    text-transform: uppercase;
+		font-weight: bold;
+		font-size: 12px;
+		text-transform: uppercase;
 
-    background: $ramonki_color;
-    color: $font_color_light;
+		background: $ramonki_color;
+		color: $font_color_light;
 
-    margin-bottom: 10px;
-  }
+		margin-bottom: 10px;
+	}
 
-  footer {
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    height: 80px;
+	footer {
+		align-items: center;
+		justify-content: center;
+		display: flex;
+		height: 80px;
 
-    font-size: 12px;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 16px;
+		font-size: 12px;
+		text-transform: uppercase;
+		text-align: center;
+		line-height: 16px;
 
-    background: $background_footer_color;
-    color: $font_color_light;
+		background: $background_footer_color;
+		color: $font_color_light;
 
-    margin-top: 10px;
-  }
+		margin-top: 10px;
+	}
 }

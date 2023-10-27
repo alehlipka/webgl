@@ -23,40 +23,32 @@ const glContext: Context = new Context("gl-canvas");
 const gl: WebGL2RenderingContext = glContext.getContext();
 
 const shaders: shaderCodes = {
-  vertex: vertexShaderCode,
-  fragment: fragmentShaderCode,
+	vertex: vertexShaderCode,
+	fragment: fragmentShaderCode
 };
 const shader: Shader = new Shader(gl, shaders);
 const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 
-const camera: Camera = new Camera(
-  gl,
-  gl.canvas.width / gl.canvas.height,
-  MathHelper.ToRadians(45),
-  0.1,
-  1000,
-);
+const camera: Camera = new Camera(gl, gl.canvas.width / gl.canvas.height, MathHelper.ToRadians(45), 0.1, 1000);
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
 renderer
-  .addObject(
-    new Terrain(gl, new Vector3(0, -3, 0), <string>debugTextureUrl, new Vector2(10)),
-  )
-  .addObjects([
-    new Cube(gl, new Vector3(-1, +1, 0), <string>raccoonTextureUrl, Vector3.One()),
-    new Cube(gl, new Vector3(+1, +1, 0), <string>raccoonTextureUrl, Vector3.One()),
-    new Plane(gl, new Vector3(0, +0, 0), <string>raccoonTextureUrl, new Vector2(5)),
-    new Cube(gl, new Vector3(+1, -1, 0), <string>raccoonTextureUrl, Vector3.One()),
-    new Cube(gl, new Vector3(-1, -1, 0), <string>raccoonTextureUrl, Vector3.One()),
-  ])
-  .initialize()
-  .run();
+	.addObject(new Terrain(gl, new Vector3(0, -3, 0), <string>debugTextureUrl, new Vector2(10)))
+	.addObjects([
+		new Cube(gl, new Vector3(-1, +1, 0), <string>raccoonTextureUrl, Vector3.One()),
+		new Cube(gl, new Vector3(+1, +1, 0), <string>raccoonTextureUrl, Vector3.One()),
+		new Plane(gl, new Vector3(0, +0, 0), <string>raccoonTextureUrl, new Vector2(5)),
+		new Cube(gl, new Vector3(+1, -1, 0), <string>raccoonTextureUrl, Vector3.One()),
+		new Cube(gl, new Vector3(-1, -1, 0), <string>raccoonTextureUrl, Vector3.One())
+	])
+	.initialize()
+	.run();
 
 window.addEventListener("load", (): void => {
-  glContext.OnLoad(window.innerWidth, window.innerHeight);
-  renderer.resize(window.innerWidth, window.innerHeight);
+	glContext.OnLoad(window.innerWidth, window.innerHeight);
+	renderer.resize(window.innerWidth, window.innerHeight);
 });
 window.addEventListener("resize", (): void => {
-  glContext.OnResize(window.innerWidth, window.innerHeight);
-  renderer.resize(window.innerWidth, window.innerHeight);
+	glContext.OnResize(window.innerWidth, window.innerHeight);
+	renderer.resize(window.innerWidth, window.innerHeight);
 });
