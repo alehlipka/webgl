@@ -1,3 +1,5 @@
+import { MathHelper } from "./math/MathHelper";
+
 export class Loader {
 	public static loadTexture(gl: WebGL2RenderingContext, url: string): WebGLTexture {
 		const texture: WebGLTexture | null = gl.createTexture();
@@ -14,7 +16,7 @@ export class Loader {
 
 			gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
-			if (this.isPowerOfTwo(image.width) && this.isPowerOfTwo(image.height)) {
+			if (MathHelper.IsPowerOfTwo(image.width) && MathHelper.IsPowerOfTwo(image.height)) {
 				gl.generateMipmap(gl.TEXTURE_2D);
 			} else {
 				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
@@ -32,10 +34,32 @@ export class Loader {
 		return texture;
 	}
 
-	private static isPowerOfTwo(value: number): boolean {
-		if (value < 1) {
-			return false;
-		}
-		return (value & (value - 1)) === 0;
+	public static loadHeighMapArray(url: string): number[][] {
+		const image: HTMLImageElement = new Image();
+		const result: number[][] = [];
+
+		image.onload = (): void => {
+			const canvas = document.createElement("canvas");
+			canvas.width = image.width;
+			canvas.height = image.height;
+			const context = canvas.getContext("2d");
+			if (context === null) throw new Error("Height map context error");
+			context.drawImage(image, 0, 0);
+			const imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
+
+			for (let x = 0; x < image.width; x++) {
+				for (let z = 0; z < image.height; z++) {
+					const index = 4 * x * image.width + 4 * z;
+					if (!result[x]) result[x] = [];
+					result[x][z] = imageData[index];
+				}
+			}
+		};
+		image.onerror = (): void => {
+			throw new Error("Height map loading error");
+		};
+		image.src = url;
+
+		return result;
 	}
 }

@@ -15,12 +15,17 @@ import fragmentShaderCode from "./assets/shaders/fragment.glsl";
 
 import debugTextureUrl from "./assets/textures/debug.png";
 import raccoonTextureUrl from "./assets/textures/raccoon.jpg";
+import hmTextureUrl from "./assets/textures/hm.png";
 import { Terrain } from "./objects/Terrain.ts";
 import { Camera } from "./core/Camera.ts";
 import { MathHelper } from "./core/math/MathHelper.ts";
+import { Loader } from "./core/Loader.ts";
 
 const glContext: Context = new Context("gl-canvas");
 const gl: WebGL2RenderingContext = glContext.getContext();
+
+const hm = Loader.loadHeighMapArray(hmTextureUrl);
+console.log(hm);
 
 const shaders: shaderCodes = {
 	vertex: vertexShaderCode,
