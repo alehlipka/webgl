@@ -19,5 +19,6 @@ type UniformLocations = {
 	projectionMatrix: WebGLUniformLocation | null;
 	modelMatrix: WebGLUniformLocation | null;
 	viewMatrix: WebGLUniformLocation | null;
+	cameraPosition: WebGLUniformLocation | null;
 	uSampler: WebGLUniformLocation | null;
 };

@@ -137,6 +137,10 @@ export class Camera {
 		return Matrix4.Perspective(this.fov, this.aspectRatio, this.near, this.far);
 	}
 
+	public getPosition(): Vector3 {
+		return this.position;
+	}
+
 	private updateVectors(): void {
 		// First, the front matrix is calculated using some basic trigonometry.
 		this.front.X = Math.cos(this._pitch) * Math.cos(this._yaw);

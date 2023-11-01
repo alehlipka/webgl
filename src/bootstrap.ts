@@ -44,6 +44,7 @@ const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
 renderer
 	.addObjects([
 		new Terrain(gl, new Vector3(0, -5, 0), <string>hmTextureUrl, new Vector2(20)),
+		new Cube(gl, Vector3.Zero(), <string>greyTextureUrl, new Vector3(0.1)),
 		new Cube(gl, new Vector3(-1, +1, 0), <string>redTextureUrl, Vector3.One()),
 		new Cube(gl, new Vector3(+1, +1, 0), <string>greenTextureUrl, Vector3.One()),
 		new Cube(gl, new Vector3(+1, -1, 0), <string>violetTextureUrl, Vector3.One()),

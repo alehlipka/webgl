@@ -1,6 +1,7 @@
 import { ProgramInfo } from "./types.ts";
 import { Object3d } from "./../objects/Object3d.ts";
 import { Camera } from "./Camera.ts";
+import { Vector3 } from "./math/Vector3.ts";
 
 export class Renderer {
 	private readonly gl: WebGL2RenderingContext;
@@ -90,6 +91,12 @@ export class Renderer {
 			this.programInfo.uniformLocations.projectionMatrix,
 			false,
 			this.camera.getProjectionMatrix().ToArray()
+		);
+
+		const cameraPosition: Vector3 = this.camera.getPosition();
+		this.gl.uniform3fv(
+			this.programInfo.uniformLocations.cameraPosition,
+			new Float32Array([cameraPosition.X, cameraPosition.Y, cameraPosition.Z])
 		);
 
 		this.objects.forEach((object3d: Object3d): void => {

@@ -48,6 +48,7 @@ export class Shader {
 				projectionMatrix: this.gl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
 				modelMatrix: this.gl.getUniformLocation(shaderProgram, "uModelMatrix"),
 				viewMatrix: this.gl.getUniformLocation(shaderProgram, "uViewMatrix"),
+				cameraPosition: this.gl.getUniformLocation(shaderProgram, "uCameraPosition"),
 				uSampler: this.gl.getUniformLocation(shaderProgram, "uSampler")
 			}
 		};
