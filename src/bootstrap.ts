@@ -13,8 +13,13 @@ import { Plane } from "./objects/Plane.ts";
 import vertexShaderCode from "./assets/shaders/vertex.glsl";
 import fragmentShaderCode from "./assets/shaders/fragment.glsl";
 
-import debugTextureUrl from "./assets/textures/debug.png";
-import raccoonTextureUrl from "./assets/textures/raccoon.jpg";
+import debugTexture1Url from "./assets/textures/debug/dark/texture_13.png";
+import debugTexture2Url from "./assets/textures/debug/green/texture_01.png";
+import debugTexture3Url from "./assets/textures/debug/orange/texture_01.png";
+import debugTexture4Url from "./assets/textures/debug/purple/texture_01.png";
+import debugTexture5Url from "./assets/textures/debug/red/texture_01.png";
+import debugTexture6Url from "./assets/textures/debug/light/texture_12.png";
+
 import hmTextureUrl from "./assets/textures/hm.png";
 import { Terrain } from "./objects/Terrain.ts";
 import { Camera } from "./core/Camera.ts";
@@ -24,7 +29,7 @@ import { Loader } from "./core/Loader.ts";
 const glContext: Context = new Context("gl-canvas");
 const gl: WebGL2RenderingContext = glContext.getContext();
 
-const hm = Loader.loadHeighMapArray(hmTextureUrl);
+const hm: number[][] = Loader.loadHeighMapArray(hmTextureUrl);
 console.log(hm);
 
 const shaders: shaderCodes = {
@@ -38,14 +43,14 @@ const camera: Camera = new Camera(gl, gl.canvas.width / gl.canvas.height, MathHe
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
 renderer
-	.addObject(new Terrain(gl, new Vector3(0, -3, 0), <string>debugTextureUrl, new Vector2(10)))
+	.addObject(new Terrain(gl, new Vector3(0, -3, 0), <string>debugTexture1Url, new Vector2(20)))
 	.addObjects([
-		new Cube(gl, new Vector3(-1, +1, 0), <string>raccoonTextureUrl, Vector3.One()),
-		new Cube(gl, new Vector3(+1, +1, 0), <string>raccoonTextureUrl, Vector3.One()),
-		new Plane(gl, new Vector3(0, +0, 0), <string>raccoonTextureUrl, new Vector2(5)),
-		new Cube(gl, new Vector3(+1, -1, 0), <string>raccoonTextureUrl, Vector3.One()),
-		new Cube(gl, new Vector3(-1, -1, 0), <string>raccoonTextureUrl, Vector3.One())
+		new Cube(gl, new Vector3(-1, +1, 0), <string>debugTexture2Url, Vector3.One()),
+		new Cube(gl, new Vector3(+1, +1, 0), <string>debugTexture3Url, Vector3.One()),
+		new Cube(gl, new Vector3(+1, -1, 0), <string>debugTexture5Url, Vector3.One()),
+		new Cube(gl, new Vector3(-1, -1, 0), <string>debugTexture6Url, Vector3.One())
 	])
+	.addObject(new Plane(gl, new Vector3(0, -2, 0), <string>debugTexture4Url, new Vector2(15)))
 	.initialize()
 	.run();
 

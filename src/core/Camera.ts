@@ -26,7 +26,7 @@ export class Camera {
 	constructor(gl: WebGL2RenderingContext, aspectRatio: number, fov: number, near: number, far: number) {
 		this.gl = gl;
 
-		this.position = new Vector3(0, 0, 10);
+		this.position = new Vector3(0, 10, 20);
 
 		this.front = new Vector3(0, 0, -1);
 		this.up = Vector3.UnitY();
