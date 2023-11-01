@@ -13,14 +13,11 @@ import { Plane } from "./objects/Plane.ts";
 import vertexShaderCode from "./assets/shaders/vertex.glsl";
 import fragmentShaderCode from "./assets/shaders/fragment.glsl";
 
-import debugTexture1Url from "./assets/textures/debug/blue.png";
-import debugTexture2Url from "./assets/textures/debug/dark.png";
-import debugTexture3Url from "./assets/textures/debug/green.png";
-import debugTexture4Url from "./assets/textures/debug/light.png";
-import debugTexture5Url from "./assets/textures/debug/orange.png";
-import debugTexture6Url from "./assets/textures/debug/pink.png";
-import debugTexture7Url from "./assets/textures/debug/red.png";
-import debugTexture8Url from "./assets/textures/debug/yellow.png";
+import blueTextureUrl from "./assets/textures/debug/blue.png";
+import greenTextureUrl from "./assets/textures/debug/green.png";
+import greyTextureUrl from "./assets/textures/debug/grey.png";
+import redTextureUrl from "./assets/textures/debug/red.png";
+import violetTextureUrl from "./assets/textures/debug/violet.png";
 
 import hmTextureUrl from "./assets/textures/hm.png";
 import { Terrain } from "./objects/Terrain.ts";
@@ -46,14 +43,13 @@ const camera: Camera = new Camera(gl, gl.canvas.width / gl.canvas.height, MathHe
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
 renderer
 	.addObjects([
-		new Terrain(gl, new Vector3(0, -5, 0), <string>debugTexture1Url, new Vector2(20)),
-		new Cube(gl, new Vector3(-1, +1, 1), <string>debugTexture2Url, Vector3.One()),
-		new Cube(gl, new Vector3(+1, +1, -1), <string>debugTexture3Url, Vector3.One()),
-		new Cube(gl, new Vector3(+1, -1, 1), <string>debugTexture4Url, Vector3.One()),
-		new Cube(gl, new Vector3(-1, -1, -1), <string>debugTexture5Url, Vector3.One()),
-		new Plane(gl, new Vector3(0, -2, 0), <string>debugTexture6Url, new Vector2(5)),
-		new Plane(gl, new Vector3(0, -3, 0), <string>debugTexture7Url, new Vector2(10)),
-		new Plane(gl, new Vector3(0, -4, 0), <string>debugTexture8Url, new Vector2(15))
+		new Terrain(gl, new Vector3(0, -5, 0), <string>greyTextureUrl, new Vector2(20)),
+		new Cube(gl, new Vector3(-1, +1, 0.2), <string>redTextureUrl, Vector3.One()),
+		new Cube(gl, new Vector3(+1, +1, -0.2), <string>greenTextureUrl, Vector3.One()),
+		new Cube(gl, new Vector3(+1, -1, 0.2), <string>redTextureUrl, Vector3.One()),
+		new Cube(gl, new Vector3(-1, -1, -0.2), <string>greenTextureUrl, Vector3.One()),
+		new Plane(gl, new Vector3(0, -2, 0), <string>blueTextureUrl, new Vector2(7)),
+		new Plane(gl, new Vector3(0, -3, 0), <string>violetTextureUrl, new Vector2(14))
 	])
 	.initialize()
 	.run();
