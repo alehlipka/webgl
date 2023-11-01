@@ -18,9 +18,9 @@ export class Cube extends Object3d {
 
 	override update(_elapsedSeconds: number): void {
 		this.rotation = new Vector3(
-			this._rotation.X + _elapsedSeconds * 1,
-			this._rotation.Y + _elapsedSeconds * 1,
-			this._rotation.Z + _elapsedSeconds * 1
+			this._rotation.X + _elapsedSeconds * 0.3,
+			this._rotation.Y + _elapsedSeconds * 0.3,
+			this._rotation.Z + _elapsedSeconds * 0.3
 		);
 	}
 
@@ -38,7 +38,7 @@ export class Cube extends Object3d {
 			+0.0,
 			+1.0,
 			0.0,
-			0.0, // Front face
+			1.0, // Front face
 			+halfX,
 			-halfY,
 			+halfZ,
@@ -46,7 +46,7 @@ export class Cube extends Object3d {
 			+0.0,
 			+1.0,
 			1.0,
-			0.0, // Front face
+			1.0, // Front face
 			+halfX,
 			+halfY,
 			+halfZ,
@@ -54,7 +54,7 @@ export class Cube extends Object3d {
 			+0.0,
 			+1.0,
 			1.0,
-			1.0, // Front face
+			0.0, // Front face
 			-halfX,
 			+halfY,
 			+halfZ,
@@ -62,7 +62,7 @@ export class Cube extends Object3d {
 			+0.0,
 			+1.0,
 			0.0,
-			1.0, // Front face
+			0.0, // Front face
 
 			// Position             // Normal           // Texture
 			-halfX,
@@ -71,8 +71,8 @@ export class Cube extends Object3d {
 			+0.0,
 			+0.0,
 			-1.0,
-			0.0,
-			0.0, // Back face
+			1.0,
+			1.0, // Back face
 			-halfX,
 			+halfY,
 			-halfZ,
@@ -87,8 +87,8 @@ export class Cube extends Object3d {
 			+0.0,
 			+0.0,
 			-1.0,
-			1.0,
-			1.0, // Back face
+			0.0,
+			0.0, // Back face
 			+halfX,
 			-halfY,
 			-halfZ,
@@ -113,24 +113,24 @@ export class Cube extends Object3d {
 			+0.0,
 			+1.0,
 			+0.0,
+			0.0,
+			1.0, // Top face
+			+halfX,
+			+halfY,
+			+halfZ,
+			+0.0,
+			+1.0,
+			+0.0,
+			1.0,
+			1.0, // Top face
+			+halfX,
+			+halfY,
+			-halfZ,
+			+0.0,
+			+1.0,
+			+0.0,
 			1.0,
 			0.0, // Top face
-			+halfX,
-			+halfY,
-			+halfZ,
-			+0.0,
-			+1.0,
-			+0.0,
-			1.0,
-			1.0, // Top face
-			+halfX,
-			+halfY,
-			-halfZ,
-			+0.0,
-			+1.0,
-			+0.0,
-			0.0,
-			1.0, // Top face
 
 			// Position             // Normal           // Texture
 			-halfX,
@@ -140,7 +140,7 @@ export class Cube extends Object3d {
 			-1.0,
 			+0.0,
 			0.0,
-			0.0, // Bottom face
+			1.0, // Bottom face
 			+halfX,
 			-halfY,
 			-halfZ,
@@ -148,7 +148,7 @@ export class Cube extends Object3d {
 			-1.0,
 			+0.0,
 			1.0,
-			0.0, // Bottom face
+			1.0, // Bottom face
 			+halfX,
 			-halfY,
 			+halfZ,
@@ -156,7 +156,7 @@ export class Cube extends Object3d {
 			-1.0,
 			+0.0,
 			1.0,
-			1.0, // Bottom face
+			0.0, // Bottom face
 			-halfX,
 			-halfY,
 			+halfZ,
@@ -164,33 +164,33 @@ export class Cube extends Object3d {
 			-1.0,
 			+0.0,
 			0.0,
-			1.0, // Bottom face
+			0.0, // Bottom face
 
 			// Position             // Normal           // Texture
 			+halfX,
 			-halfY,
 			-halfZ,
-			+1.0,
-			+0.0,
-			+0.0,
-			0.0,
-			0.0, // Right face
-			+halfX,
-			+halfY,
-			-halfZ,
-			+1.0,
-			+0.0,
-			+0.0,
-			1.0,
-			0.0, // Right face
-			+halfX,
-			+halfY,
-			+halfZ,
 			+1.0,
 			+0.0,
 			+0.0,
 			1.0,
 			1.0, // Right face
+			+halfX,
+			+halfY,
+			-halfZ,
+			+1.0,
+			+0.0,
+			+0.0,
+			1.0,
+			0.0, // Right face
+			+halfX,
+			+halfY,
+			+halfZ,
+			+1.0,
+			+0.0,
+			+0.0,
+			0.0,
+			0.0, // Right face
 			+halfX,
 			-halfY,
 			+halfZ,
@@ -208,17 +208,9 @@ export class Cube extends Object3d {
 			+0.0,
 			+0.0,
 			0.0,
-			0.0, // Left face
+			1.0, // Left face
 			-halfX,
 			-halfY,
-			+halfZ,
-			-1.0,
-			+0.0,
-			+0.0,
-			1.0,
-			0.0, // Left face
-			-halfX,
-			+halfY,
 			+halfZ,
 			-1.0,
 			+0.0,
@@ -227,12 +219,20 @@ export class Cube extends Object3d {
 			1.0, // Left face
 			-halfX,
 			+halfY,
+			+halfZ,
+			-1.0,
+			+0.0,
+			+0.0,
+			1.0,
+			0.0, // Left face
+			-halfX,
+			+halfY,
 			-halfZ,
 			-1.0,
 			+0.0,
 			+0.0,
 			0.0,
-			1.0 // Left face
+			0.0 // Left face
 		];
 	}
 
