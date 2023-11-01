@@ -2,6 +2,8 @@
 
 WebGL with vite, typescript, vitest, eslint and prettier
 
+![preview](./preview.png "WebGL Preview")
+
 ## Installation
 
 ```bash
