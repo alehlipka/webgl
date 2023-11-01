@@ -18,11 +18,7 @@ export class Plane extends Object3d {
 	}
 
 	override update(_elapsedSeconds: number): void {
-		this.rotation = new Vector3(
-			this._rotation.X + _elapsedSeconds * 0,
-			this._rotation.Y + _elapsedSeconds * 1,
-			this._rotation.Z + _elapsedSeconds * 0
-		);
+		this.rotation = Vector3.Add(this.rotation, new Vector3(0, _elapsedSeconds * 0.3, 0));
 	}
 
 	override getObjectBuffer(): number[] {

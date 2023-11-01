@@ -18,9 +18,7 @@ export class Terrain extends Object3d {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	override update(_elapsedSeconds: number): void {
-		this.rotation = new Vector3(this._rotation.X, this._rotation.Y, this._rotation.Z);
-	}
+	override update(_elapsedSeconds: number): void {}
 
 	override getObjectBuffer(): number[] {
 		const halfX: number = this.size.X / 2;

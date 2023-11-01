@@ -17,11 +17,7 @@ export class Cube extends Object3d {
 	}
 
 	override update(_elapsedSeconds: number): void {
-		this.rotation = new Vector3(
-			this._rotation.X + _elapsedSeconds * 0.3,
-			this._rotation.Y + _elapsedSeconds * 0.3,
-			this._rotation.Z + _elapsedSeconds * 0.3
-		);
+		this.rotation = Vector3.Add(this.rotation, new Vector3(_elapsedSeconds * 0.3));
 	}
 
 	override getObjectBuffer(): number[] {
@@ -38,7 +34,8 @@ export class Cube extends Object3d {
 			+0.0,
 			+1.0,
 			0.0,
-			1.0, // Front face
+			1.0,
+			// Front face
 			+halfX,
 			-halfY,
 			+halfZ,

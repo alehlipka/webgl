@@ -43,13 +43,13 @@ const camera: Camera = new Camera(gl, gl.canvas.width / gl.canvas.height, MathHe
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
 renderer
 	.addObjects([
-		new Terrain(gl, new Vector3(0, -5, 0), <string>greyTextureUrl, new Vector2(20)),
-		new Cube(gl, new Vector3(-1, +1, 0.2), <string>redTextureUrl, Vector3.One()),
-		new Cube(gl, new Vector3(+1, +1, -0.2), <string>greenTextureUrl, Vector3.One()),
-		new Cube(gl, new Vector3(+1, -1, 0.2), <string>redTextureUrl, Vector3.One()),
-		new Cube(gl, new Vector3(-1, -1, -0.2), <string>greenTextureUrl, Vector3.One()),
+		new Terrain(gl, new Vector3(0, -5, 0), <string>hmTextureUrl, new Vector2(20)),
+		new Cube(gl, new Vector3(-1, +1, 0), <string>redTextureUrl, Vector3.One()),
+		new Cube(gl, new Vector3(+1, +1, 0), <string>greenTextureUrl, Vector3.One()),
+		new Cube(gl, new Vector3(+1, -1, 0), <string>violetTextureUrl, Vector3.One()),
+		new Cube(gl, new Vector3(-1, -1, 0), <string>blueTextureUrl, Vector3.One()),
 		new Plane(gl, new Vector3(0, -2, 0), <string>blueTextureUrl, new Vector2(7)),
-		new Plane(gl, new Vector3(0, -3, 0), <string>violetTextureUrl, new Vector2(14))
+		new Plane(gl, new Vector3(0, -3, 0), <string>greyTextureUrl, new Vector2(14))
 	])
 	.initialize()
 	.run();

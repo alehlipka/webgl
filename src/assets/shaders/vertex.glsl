@@ -13,7 +13,7 @@ varying highp vec3 vNormal;
 void main(void) {
     vFragPosition = vec3(uModelMatrix * vec4(aVertexPosition, 1.0));
     vTextureCoord = aTextureCoords;
-    vNormal = vec3(uModelMatrix * vec4(aVertexNormal, 1.0));
+    vNormal = (uModelMatrix * vec4(aVertexNormal, 0)).xyz;
 
     gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
 }
