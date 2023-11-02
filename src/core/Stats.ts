@@ -48,8 +48,8 @@ export class Stats {
 		this.frames++;
 		const time: number = performance.now();
 		this.msPanel.update(time - this.beginTime, 100);
-		if (time >= this.prevTime + 1000) {
-			this.fpsPanel.update((this.frames * 1000) / (time - this.prevTime), 120);
+		if (time >= this.prevTime + 100) {
+			this.fpsPanel.update((this.frames * 1000) / (time - this.prevTime), 70);
 			this.prevTime = time;
 			this.frames = 0;
 		}
@@ -98,19 +98,22 @@ class StatsPanel {
 		this.max = 0;
 		this.PR = Math.round(window.devicePixelRatio || 1);
 
-		this.WIDTH = 180 * this.PR;
-		this.HEIGHT = 48 * this.PR;
+		const w = 200;
+		const h = 100;
+
+		this.WIDTH = w * this.PR;
+		this.HEIGHT = h * this.PR;
 		this.TEXT_X = 3 * this.PR;
 		this.TEXT_Y = 3 * this.PR;
 		this.GRAPH_X = 3 * this.PR;
 		this.GRAPH_Y = 15 * this.PR;
-		this.GRAPH_WIDTH = 174 * this.PR;
-		this.GRAPH_HEIGHT = 30 * this.PR;
+		this.GRAPH_WIDTH = (w - 6) * this.PR;
+		this.GRAPH_HEIGHT = (h - 18) * this.PR;
 
 		this.canvas = document.createElement("canvas");
 		this.canvas.width = this.WIDTH;
 		this.canvas.height = this.HEIGHT;
-		this.canvas.style.cssText = "width:180px;height:48px";
+		this.canvas.style.cssText = `width:${w}px;height:${h}px`;
 
 		const context: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
 		if (context === null) throw new Error("Stats context not found");
