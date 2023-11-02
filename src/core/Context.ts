@@ -15,10 +15,10 @@ export class Context {
 	 */
 	constructor(canvas_id: string) {
 		const canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById(canvas_id);
-		if (canvasElement === null) throw Error(`Canvas with ID "${canvas_id}" not found`);
+		if (canvasElement === null) throw new Error(`Canvas with ID "${canvas_id}" not found`);
 
 		const context: WebGL2RenderingContext | null = canvasElement.getContext("webgl2");
-		if (context === null) throw Error("Context initialization fail");
+		if (context === null) throw new Error("Context initialization fail");
 		this.gl = context;
 	}
 

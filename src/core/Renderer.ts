@@ -2,15 +2,16 @@ import { ProgramInfo } from "./types.ts";
 import { Object3d } from "./../objects/Object3d.ts";
 import { Camera } from "./Camera.ts";
 import { Vector3 } from "./math/Vector3.ts";
+import { Stats, StatsMode } from "./Stats.ts";
 
 export class Renderer {
 	private readonly gl: WebGL2RenderingContext;
+	private readonly programInfo: ProgramInfo;
 
-	private programInfo: ProgramInfo;
 	private then: number;
-
 	private objects: Object3d[];
 	private camera: Camera;
+	private stats: Stats;
 
 	constructor(gl: WebGL2RenderingContext, programInfo: ProgramInfo, camera: Camera) {
 		this.gl = gl;
@@ -33,6 +34,10 @@ export class Renderer {
 		this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
 
 		this.gl.useProgram(this.programInfo.program);
+
+		this.stats = new Stats(StatsMode.FPS, 5, 5);
+		this.stats.showPanel(StatsMode.FPS);
+		document.body.appendChild(this.stats.container);
 	}
 
 	public addObject(object3d: Object3d): this {
@@ -58,12 +63,14 @@ export class Renderer {
 	}
 
 	public run = (): void => {
-		const delta: number = this.getDeltaTime();
+		this.stats.begin();
 
+		const delta: number = this.getDeltaTime();
 		this.update(delta);
 		this.draw(delta);
-
 		requestAnimationFrame(this.run);
+
+		this.stats.end();
 	};
 
 	public resize(width: number, height: number): void {
