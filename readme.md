@@ -9,6 +9,7 @@ WebGL with vite, typescript, vitest, eslint and prettier
 -   Window events inside renderer's update function
 -   Image reader async function
 -   Single buffer draw
+-   Models loader
 -   Sceleteal animation
 -   Physics
 
