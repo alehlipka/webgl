@@ -4,6 +4,14 @@ WebGL with vite, typescript, vitest, eslint and prettier
 
 ![preview](./preview.png "WebGL Preview")
 
+## TODO
+
+-   Window events inside renderer's update function
+-   Image reader async function
+-   Single buffer draw
+-   Sceleteal animation
+-   Physics
+
 ## Installation
 
 ```bash
