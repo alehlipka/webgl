@@ -99,6 +99,8 @@ export class Renderer {
 			new Float32Array([cameraPosition.X, cameraPosition.Y, cameraPosition.Z])
 		);
 
+		this.camera.update(elapsedSeconds);
+
 		this.objects.forEach((object3d: Object3d): void => {
 			object3d.update(elapsedSeconds);
 		});

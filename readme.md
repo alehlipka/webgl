@@ -11,7 +11,7 @@ WebGL with vite, typescript, vitest, eslint and prettier
 -   ~~Directional lighting~~
 -   ~~Ambient~~
 -   ~~Specular lighting~~
--   Window events inside renderer's update function
+-   ~~Window events inside renderer's update function~~
 -   ~~Image reader async function~~
 -   Single buffer draw
 -   Sphere primitive

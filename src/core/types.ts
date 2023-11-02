@@ -9,6 +9,11 @@ export type ProgramInfo = {
 	uniformLocations: UniformLocations;
 };
 
+export type KeyCode = {
+	code: string;
+	isDown: boolean;
+};
+
 type AttributeLocations = {
 	vertexPosition: number;
 	vertexNormal: number;
