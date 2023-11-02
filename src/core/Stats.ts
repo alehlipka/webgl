@@ -36,6 +36,8 @@ export class Stats {
 
 		this.fpsPanel = this.addPanel(new StatsPanel("FPS", "#0ff", "#002"));
 		this.msPanel = this.addPanel(new StatsPanel("MS", "#0f0", "#020"));
+
+		this.showPanel(mode);
 	}
 
 	public begin(): void {
@@ -45,9 +47,9 @@ export class Stats {
 	public end(): number {
 		this.frames++;
 		const time: number = performance.now();
-		this.msPanel.update(time - this.beginTime, 200);
+		this.msPanel.update(time - this.beginTime, 100);
 		if (time >= this.prevTime + 1000) {
-			this.fpsPanel.update((this.frames * 1000) / (time - this.prevTime), 100);
+			this.fpsPanel.update((this.frames * 1000) / (time - this.prevTime), 120);
 			this.prevTime = time;
 			this.frames = 0;
 		}
@@ -96,19 +98,19 @@ class StatsPanel {
 		this.max = 0;
 		this.PR = Math.round(window.devicePixelRatio || 1);
 
-		this.WIDTH = 80 * this.PR;
+		this.WIDTH = 180 * this.PR;
 		this.HEIGHT = 48 * this.PR;
 		this.TEXT_X = 3 * this.PR;
-		this.TEXT_Y = 2 * this.PR;
+		this.TEXT_Y = 3 * this.PR;
 		this.GRAPH_X = 3 * this.PR;
 		this.GRAPH_Y = 15 * this.PR;
-		this.GRAPH_WIDTH = 74 * this.PR;
+		this.GRAPH_WIDTH = 174 * this.PR;
 		this.GRAPH_HEIGHT = 30 * this.PR;
 
 		this.canvas = document.createElement("canvas");
 		this.canvas.width = this.WIDTH;
 		this.canvas.height = this.HEIGHT;
-		this.canvas.style.cssText = "width:80px;height:48px";
+		this.canvas.style.cssText = "width:180px;height:48px";
 
 		const context: CanvasRenderingContext2D | null = this.canvas.getContext("2d");
 		if (context === null) throw new Error("Stats context not found");

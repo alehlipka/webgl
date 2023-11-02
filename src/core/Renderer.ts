@@ -35,8 +35,7 @@ export class Renderer {
 
 		this.gl.useProgram(this.programInfo.program);
 
-		this.stats = new Stats(StatsMode.FPS, 5, 5);
-		this.stats.showPanel(StatsMode.FPS);
+		this.stats = new Stats(StatsMode.MS, 5, 5);
 		document.body.appendChild(this.stats.container);
 	}
 
