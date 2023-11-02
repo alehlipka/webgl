@@ -29,7 +29,7 @@ import { Loader } from "./core/Loader.ts";
 const glContext: Context = new Context("gl-canvas");
 const gl: WebGL2RenderingContext = glContext.getContext();
 
-const hm: number[][] = Loader.loadHeighMapArray(hmTextureUrl);
+const hm: number[][] = Loader.LoadHeighMapArray(hmTextureUrl);
 console.log(hm);
 
 const shaders: shaderCodes = {
@@ -38,32 +38,31 @@ const shaders: shaderCodes = {
 };
 const shader: Shader = new Shader(gl, shaders);
 const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
-
 const camera: Camera = new Camera(gl, gl.canvas.width / gl.canvas.height, MathHelper.ToRadians(45), 0.1, 1000);
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
-renderer
-	.addObjects([
-		new Terrain(gl, new Vector3(0, -5, 0), <string>hmTextureUrl, new Vector2(20)),
+renderer.addObjects([
+	new Terrain(gl, new Vector3(0, -5, 0), <string>hmTextureUrl, new Vector2(20)),
 
-		new Cube(gl, new Vector3(-0.8, +0.8, 0), <string>redTextureUrl, Vector3.One()),
-		new Cube(gl, new Vector3(+0.8, +0.8, 0), <string>greenTextureUrl, Vector3.One()),
-		new Cube(gl, new Vector3(+0.8, -0.8, 0), <string>violetTextureUrl, Vector3.One()),
-		new Cube(gl, new Vector3(-0.8, -0.8, 0), <string>blueTextureUrl, Vector3.One()),
+	new Cube(gl, new Vector3(-0.8, +0.8, 0), <string>redTextureUrl, Vector3.One()),
+	new Cube(gl, new Vector3(+0.8, +0.8, 0), <string>greenTextureUrl, Vector3.One()),
+	new Cube(gl, new Vector3(+0.8, -0.8, 0), <string>violetTextureUrl, Vector3.One()),
+	new Cube(gl, new Vector3(-0.8, -0.8, 0), <string>blueTextureUrl, Vector3.One()),
 
-		new Plane(gl, new Vector3(0, -2, 0), <string>blueTextureUrl, new Vector2(7)),
-		new Plane(gl, new Vector3(0, -3, 0), <string>greyTextureUrl, new Vector2(14)),
+	new Plane(gl, new Vector3(0, -2, 0), <string>blueTextureUrl, new Vector2(7)),
+	new Plane(gl, new Vector3(0, -3, 0), <string>greyTextureUrl, new Vector2(14)),
 
-		new Cube(gl, Vector3.Zero(), <string>lightTextureUrl, new Vector3(0.2))
-	])
-	.initialize()
-	.run();
+	new Cube(gl, Vector3.Zero(), <string>lightTextureUrl, new Vector3(0.2))
+]);
+renderer.initialize().then(() => {
+	renderer.run();
 
-window.addEventListener("load", (): void => {
-	glContext.OnLoad(window.innerWidth, window.innerHeight);
-	renderer.resize(window.innerWidth, window.innerHeight);
-});
-window.addEventListener("resize", (): void => {
-	glContext.OnResize(window.innerWidth, window.innerHeight);
-	renderer.resize(window.innerWidth, window.innerHeight);
+	window.addEventListener("load", (): void => {
+		glContext.OnLoad(window.innerWidth, window.innerHeight);
+		renderer.resize(window.innerWidth, window.innerHeight);
+	});
+	window.addEventListener("resize", (): void => {
+		glContext.OnResize(window.innerWidth, window.innerHeight);
+		renderer.resize(window.innerWidth, window.innerHeight);
+	});
 });

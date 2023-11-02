@@ -57,10 +57,10 @@ export class Object3d {
 		this.objectBuffer = objectBuffer;
 		this.indexBuffer = indexBuffer;
 
-		this.texture = Loader.loadTexture(this.gl, textureUrl);
+		this.texture = Loader.LoadTexture(this.gl, textureUrl);
 	}
 
-	public InitializeBuffers(): void {
+	public async Initialize(): Promise<void> {
 		this.objectBufferArray = this.getObjectBuffer();
 		this.indexBufferArray = this.getIndexBuffer();
 

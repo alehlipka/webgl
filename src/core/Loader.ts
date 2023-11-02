@@ -1,7 +1,7 @@
 import { MathHelper } from "./math/MathHelper";
 
 export class Loader {
-	public static loadTexture(gl: WebGL2RenderingContext, url: string): WebGLTexture {
+	public static LoadTexture(gl: WebGL2RenderingContext, url: string): WebGLTexture {
 		const texture: WebGLTexture | null = gl.createTexture();
 		if (texture === null) throw new Error("Texture creation error");
 
@@ -32,7 +32,7 @@ export class Loader {
 		return texture;
 	}
 
-	public static loadHeighMapArray(url: string): number[][] {
+	public static LoadHeighMapArray(url: string): number[][] {
 		const image: HTMLImageElement = new Image();
 		const result: number[][] = [];
 

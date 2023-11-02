@@ -39,26 +39,21 @@ export class Renderer {
 		document.body.appendChild(this.stats.container);
 	}
 
-	public addObject(object3d: Object3d): this {
+	public addObject(object3d: Object3d): void {
 		this.objects.push(object3d);
-
-		return this;
 	}
 
-	public addObjects(objects3d: Object3d[]): this {
+	public addObjects(objects3d: Object3d[]): void {
 		objects3d.forEach((object3d: Object3d): void => {
 			this.objects.push(object3d);
 		});
-
-		return this;
 	}
 
-	public initialize(): this {
-		this.objects.forEach((object3d: Object3d): void => {
-			object3d.InitializeBuffers();
-		});
-
-		return this;
+	public async initialize(): Promise<void> {
+		// this.objects.forEach((object3d: Object3d): void => {});
+		for (const key in this.objects) {
+			await this.objects[key].Initialize();
+		}
 	}
 
 	public run = (): void => {
