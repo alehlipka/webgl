@@ -6,8 +6,13 @@ WebGL with vite, typescript, vitest, eslint and prettier
 
 ## TODO
 
+-   ~~Cube primitive~~
+-   ~~Plane primitive~~
+-   ~~Directional lighting~~
+-   ~~Ambient~~
+-   ~~Specular lighting~~
 -   Window events inside renderer's update function
--   Image reader async function
+-   ~~Image reader async function~~
 -   Single buffer draw
 -   Sphere primitive
 -   Models loader
