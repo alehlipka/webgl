@@ -9,7 +9,9 @@ WebGL with vite, typescript, vitest, eslint and prettier
 -   Window events inside renderer's update function
 -   Image reader async function
 -   Single buffer draw
+-   Sphere primitive
 -   Models loader
+-   Ray casting / click detect
 -   Sceleteal animation
 -   Physics
 
