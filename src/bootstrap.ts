@@ -24,13 +24,9 @@ import hmTextureUrl from "./assets/textures/hm.png";
 import { Terrain } from "./objects/Terrain.ts";
 import { Camera } from "./core/Camera.ts";
 import { MathHelper } from "./core/math/MathHelper.ts";
-import { Loader } from "./core/Loader.ts";
 
 const glContext: Context = new Context("gl-canvas");
 const gl: WebGL2RenderingContext = glContext.getContext();
-
-const hm: number[][] = Loader.LoadHeighMapArray(hmTextureUrl);
-console.log(hm);
 
 const shaders: shaderCodes = {
 	vertex: vertexShaderCode,
