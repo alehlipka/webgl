@@ -18,6 +18,7 @@ import greenTextureUrl from "./assets/textures/debug/green.png";
 import greyTextureUrl from "./assets/textures/debug/grey.png";
 import redTextureUrl from "./assets/textures/debug/red.png";
 import violetTextureUrl from "./assets/textures/debug/violet.png";
+import lightTextureUrl from "./assets/textures/debug/light.png";
 
 import hmTextureUrl from "./assets/textures/hm.png";
 import { Terrain } from "./objects/Terrain.ts";
@@ -44,7 +45,6 @@ const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
 renderer
 	.addObjects([
 		new Terrain(gl, new Vector3(0, -5, 0), <string>hmTextureUrl, new Vector2(20)),
-		new Cube(gl, Vector3.Zero(), <string>greyTextureUrl, new Vector3(0.1)),
 
 		new Cube(gl, new Vector3(-0.8, +0.8, 0), <string>redTextureUrl, Vector3.One()),
 		new Cube(gl, new Vector3(+0.8, +0.8, 0), <string>greenTextureUrl, Vector3.One()),
@@ -52,7 +52,9 @@ renderer
 		new Cube(gl, new Vector3(-0.8, -0.8, 0), <string>blueTextureUrl, Vector3.One()),
 
 		new Plane(gl, new Vector3(0, -2, 0), <string>blueTextureUrl, new Vector2(7)),
-		new Plane(gl, new Vector3(0, -3, 0), <string>greyTextureUrl, new Vector2(14))
+		new Plane(gl, new Vector3(0, -3, 0), <string>greyTextureUrl, new Vector2(14)),
+
+		new Cube(gl, Vector3.Zero(), <string>lightTextureUrl, new Vector3(0.2))
 	])
 	.initialize()
 	.run();
