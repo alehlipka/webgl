@@ -22,7 +22,8 @@ export class Object3d {
 	protected objectBuffer: WebGLBuffer;
 	protected indexBuffer: WebGLBuffer;
 
-	private readonly texture: WebGLTexture;
+	protected texture: WebGLTexture | null;
+	protected readonly textureUrl: string;
 
 	constructor(
 		gl: WebGL2RenderingContext,
@@ -34,6 +35,7 @@ export class Object3d {
 		this.gl = gl;
 
 		this._position = position;
+		this.textureUrl = textureUrl;
 		this._rotation = rotation;
 		this._scale = scale;
 
@@ -57,10 +59,12 @@ export class Object3d {
 		this.objectBuffer = objectBuffer;
 		this.indexBuffer = indexBuffer;
 
-		this.texture = Loader.LoadTexture(this.gl, textureUrl);
+		this.texture = null;
 	}
 
 	public async Initialize(): Promise<void> {
+		this.texture = await Loader.LoadTexture(this.gl, this.textureUrl);
+
 		this.objectBufferArray = this.getObjectBuffer();
 		this.indexBufferArray = this.getIndexBuffer();
 

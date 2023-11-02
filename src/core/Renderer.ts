@@ -50,7 +50,6 @@ export class Renderer {
 	}
 
 	public async initialize(): Promise<void> {
-		// this.objects.forEach((object3d: Object3d): void => {});
 		for (const key in this.objects) {
 			await this.objects[key].Initialize();
 		}
