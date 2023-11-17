@@ -27,14 +27,16 @@ const shaderProgramInfo: ProgramInfo = shader.getProgramInfo();
 const camera: Camera = new Camera(gl, gl.canvas.width / gl.canvas.height, MathHelper.ToRadians(45), 0.1, 10000);
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
-renderer.addObject(new Terrain(gl, new Vector3(0, 0, 0), "assets/textures/debug/green.png"));
+renderer.addObject(
+	new Terrain(gl, new Vector3(-50, 0, -50), "assets/textures/hm.png", "assets/textures/debug/grey.png")
+);
 renderer.addObjects([
-	new Cube(gl, new Vector3(-0.8, +0.8, 0), "assets/textures/debug/blue.png", Vector3.One()),
-	new Cube(gl, new Vector3(+0.8, +0.8, 0), "assets/textures/debug/green.png", Vector3.One()),
-	new Cube(gl, new Vector3(+0.8, -0.8, 0), "assets/textures/debug/grey.png", Vector3.One()),
-	new Cube(gl, new Vector3(-0.8, -0.8, 0), "assets/textures/debug/red.png", Vector3.One()),
-	new Plane(gl, new Vector3(0, -2, 0), "assets/textures/debug/violet.png", new Vector2(7)),
-	new Cube(gl, Vector3.Zero(), "assets/textures/debug/light.png", new Vector3(0.2))
+	new Cube(gl, new Vector3(-0.8, 6, 0), "assets/textures/debug/blue.png", Vector3.One()),
+	new Cube(gl, new Vector3(+0.8, 6, 0), "assets/textures/debug/green.png", Vector3.One()),
+	new Cube(gl, new Vector3(+0.8, 4, 0), "assets/textures/debug/grey.png", Vector3.One()),
+	new Cube(gl, new Vector3(-0.8, 4, 0), "assets/textures/debug/red.png", Vector3.One()),
+	new Plane(gl, new Vector3(0, 3, 0), "assets/textures/debug/violet.png", new Vector2(4)),
+	new Cube(gl, new Vector3(0, 5, 0), "assets/textures/debug/light.png", new Vector3(0.2))
 ]);
 renderer.initialize().then(() => {
 	renderer.run();

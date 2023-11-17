@@ -1,17 +1,32 @@
 import { Loader } from "../core/Loader.ts";
+import { Vector3 } from "../core/math/Vector3.ts";
 import { Object3d } from "./Object3d.ts";
 
 export class Terrain extends Object3d {
 	protected heightMapData: ImageData;
+	protected hmUrl: string;
 	protected indices: number[] = [];
 	protected vertices: number[] = [];
+
+	constructor(
+		gl: WebGL2RenderingContext,
+		position: Vector3,
+		hmUrl: string,
+		textureUrl: string,
+		rotation: Vector3 = Vector3.Zero(),
+		scale: Vector3 = Vector3.One()
+	) {
+		super(gl, position, textureUrl, rotation, scale);
+		this.hmUrl = hmUrl;
+		this.heightMapData = new ImageData(1, 1);
+	}
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	override update(_elapsedSeconds: number): void {}
 
 	override async Initialize(): Promise<void> {
 		this.texture = await Loader.LoadTexture(this.gl, this.textureUrl);
-		this.heightMapData = await Loader.GetImageData("assets/textures/hm.png");
+		this.heightMapData = await Loader.GetImageData(this.hmUrl);
 
 		this.calculateVertexIndexData();
 

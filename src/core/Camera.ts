@@ -27,7 +27,7 @@ export class Camera {
 	constructor(gl: WebGL2RenderingContext, aspectRatio: number, fov: number, near: number, far: number) {
 		this.gl = gl;
 
-		this.position = new Vector3(0, 6, 22);
+		this.position = new Vector3(0, 6, 12);
 
 		this.front = new Vector3(0, 0, -1);
 		this.up = Vector3.UnitY();
@@ -100,7 +100,7 @@ export class Camera {
 	}
 
 	public update(_elapsedSeconds: number): void {
-		const cameraSpeed: number = 30 * _elapsedSeconds;
+		const cameraSpeed: number = 20 * _elapsedSeconds;
 
 		if (Keyboard.IsDown("KeyW")) {
 			const frontSpeed = Vector3.Multiply(this.front, cameraSpeed);

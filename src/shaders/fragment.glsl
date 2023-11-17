@@ -18,7 +18,7 @@ void main(void) {
     highp vec3 Directional = DirectionalColor * max(dot(normal, DirectionalVector), 0.0);
 
     highp float SpecularShininess = 30.0;
-    highp vec3 SpecularLightPosition = vec3(0, 0, 0);
+    highp vec3 SpecularLightPosition = vec3(0, 5, 0);
     highp vec3 SpecularColor = vec3(2);
     highp vec3 SpecularToFragmentDistance = normalize(SpecularLightPosition - vModelPosition);
     highp vec3 SpecularReflection = normalize(2.0 * dot(normal, SpecularToFragmentDistance) * normal - SpecularToFragmentDistance);
