@@ -4,8 +4,8 @@ export class Context {
 	 */
 	private readonly gl: WebGL2RenderingContext;
 
-	private readonly WIDTH_OFFSET: number = 20;
-	private readonly HEIGHT_OFFSET: number = 140;
+	private readonly WIDTH_OFFSET: number = 0;
+	private readonly HEIGHT_OFFSET: number = 120;
 
 	/**
 	 * Initializes a new instance of the Context class.

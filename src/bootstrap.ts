@@ -1,29 +1,19 @@
-import "./assets/styles/main.scss";
+import "./styles/main.scss";
 
 import { ProgramInfo, shaderCodes } from "./core/types.ts";
 import { Vector2 } from "./core/math/Vector2.ts";
 import { Vector3 } from "./core/math/Vector3.ts";
-
 import { Context } from "./core/Context.ts";
 import { Renderer } from "./core/Renderer.ts";
 import { Shader } from "./core/Shader.ts";
 import { Cube } from "./objects/Cube.ts";
 import { Plane } from "./objects/Plane.ts";
-
-import vertexShaderCode from "./assets/shaders/vertex.glsl";
-import fragmentShaderCode from "./assets/shaders/fragment.glsl";
-
-import blueTextureUrl from "./assets/textures/debug/blue.png";
-import greenTextureUrl from "./assets/textures/debug/green.png";
-import greyTextureUrl from "./assets/textures/debug/grey.png";
-import redTextureUrl from "./assets/textures/debug/red.png";
-import violetTextureUrl from "./assets/textures/debug/violet.png";
-import lightTextureUrl from "./assets/textures/debug/light.png";
-
-import hmTextureUrl from "./assets/textures/hm.png";
 import { Terrain } from "./objects/Terrain.ts";
 import { Camera } from "./core/Camera.ts";
 import { MathHelper } from "./core/math/MathHelper.ts";
+
+import vertexShaderCode from "./shaders/vertex.glsl";
+import fragmentShaderCode from "./shaders/fragment.glsl";
 
 const glContext: Context = new Context("gl-canvas");
 const gl: WebGL2RenderingContext = glContext.getContext();
@@ -38,17 +28,15 @@ const camera: Camera = new Camera(gl, gl.canvas.width / gl.canvas.height, MathHe
 
 const renderer: Renderer = new Renderer(gl, shaderProgramInfo, camera);
 renderer.addObjects([
-	new Terrain(gl, new Vector3(0, -5, 0), <string>hmTextureUrl, new Vector2(20)),
+	new Terrain(gl, new Vector3(0, -5, 0), "assets/textures/hm.png", new Vector2(20)),
 
-	new Cube(gl, new Vector3(-0.8, +0.8, 0), <string>redTextureUrl, Vector3.One()),
-	new Cube(gl, new Vector3(+0.8, +0.8, 0), <string>greenTextureUrl, Vector3.One()),
-	new Cube(gl, new Vector3(+0.8, -0.8, 0), <string>violetTextureUrl, Vector3.One()),
-	new Cube(gl, new Vector3(-0.8, -0.8, 0), <string>blueTextureUrl, Vector3.One()),
-
-	new Plane(gl, new Vector3(0, -2, 0), <string>blueTextureUrl, new Vector2(7)),
-	new Plane(gl, new Vector3(0, -3, 0), <string>greyTextureUrl, new Vector2(14)),
-
-	new Cube(gl, Vector3.Zero(), <string>lightTextureUrl, new Vector3(0.2))
+	new Cube(gl, new Vector3(-0.8, +0.8, 0), "assets/textures/debug/blue.png", Vector3.One()),
+	new Cube(gl, new Vector3(+0.8, +0.8, 0), "assets/textures/debug/green.png", Vector3.One()),
+	new Cube(gl, new Vector3(+0.8, -0.8, 0), "assets/textures/debug/grey.png", Vector3.One()),
+	new Cube(gl, new Vector3(-0.8, -0.8, 0), "assets/textures/debug/red.png", Vector3.One()),
+	new Plane(gl, new Vector3(0, -2, 0), "assets/textures/debug/violet.png", new Vector2(7)),
+	new Plane(gl, new Vector3(0, -3, 0), "assets/textures/debug/light.png", new Vector2(14)),
+	new Cube(gl, Vector3.Zero(), "assets/textures/debug/light.png", new Vector3(0.2))
 ]);
 renderer.initialize().then(() => {
 	renderer.run();
