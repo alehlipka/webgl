@@ -26,28 +26,17 @@ export class Loader {
 		return texture;
 	}
 
-	public static async LoadHeighMapArray(url: string): Promise<number[][]> {
-		const result: number[][] = [];
+	public static async GetImageData(url: string): Promise<ImageData> {
 		const canvas = document.createElement("canvas");
 		const context = canvas.getContext("2d");
 		if (context === null) throw new Error("Height map context error");
 
-		await this.LoadImage(url).then((image) => {
+		return await this.LoadImage(url).then((image) => {
 			canvas.width = image.width;
 			canvas.height = image.height;
 			context.drawImage(image, 0, 0);
-			const imageData = context.getImageData(0, 0, canvas.width, canvas.height).data;
-
-			for (let x = 0; x < image.width; x++) {
-				for (let z = 0; z < image.height; z++) {
-					const index = 4 * x * image.width + 4 * z;
-					if (!result[x]) result[x] = [];
-					result[x][z] = imageData[index];
-				}
-			}
+			return context.getImageData(0, 0, canvas.width, canvas.height);
 		});
-
-		return result;
 	}
 
 	public static async LoadImage(url: string): Promise<HTMLImageElement> {
