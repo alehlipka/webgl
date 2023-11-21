@@ -25,211 +25,43 @@ export class Cube extends Object3d {
 		const halfY: number = this.size.Y / 2;
 		const halfZ: number = this.size.Z / 2;
 
+		// prettier-ignore
 		return [
 			// Position             // Normal           // Texture
-			-halfX,
-			-halfY,
-			+halfZ,
-			+0.0,
-			+0.0,
-			+1.0,
-			0.0,
-			1.0,
-			// Front face
-			+halfX,
-			-halfY,
-			+halfZ,
-			+0.0,
-			+0.0,
-			+1.0,
-			1.0,
-			1.0, // Front face
-			+halfX,
-			+halfY,
-			+halfZ,
-			+0.0,
-			+0.0,
-			+1.0,
-			1.0,
-			0.0, // Front face
-			-halfX,
-			+halfY,
-			+halfZ,
-			+0.0,
-			+0.0,
-			+1.0,
-			0.0,
-			0.0, // Front face
+			-halfX, -halfY, +halfZ,	+0.0, +0.0, +1.0,	0.0, 1.0,	// Front face
+			+halfX, -halfY, +halfZ,	+0.0, +0.0, +1.0,	1.0, 1.0,	// Front face
+			+halfX, +halfY, +halfZ,	+0.0, +0.0, +1.0,	1.0, 0.0,	// Front face
+			-halfX, +halfY, +halfZ,	+0.0, +0.0, +1.0,	0.0, 0.0,	// Front face
 
 			// Position             // Normal           // Texture
-			-halfX,
-			-halfY,
-			-halfZ,
-			+0.0,
-			+0.0,
-			-1.0,
-			1.0,
-			1.0, // Back face
-			-halfX,
-			+halfY,
-			-halfZ,
-			+0.0,
-			+0.0,
-			-1.0,
-			1.0,
-			0.0, // Back face
-			+halfX,
-			+halfY,
-			-halfZ,
-			+0.0,
-			+0.0,
-			-1.0,
-			0.0,
-			0.0, // Back face
-			+halfX,
-			-halfY,
-			-halfZ,
-			+0.0,
-			+0.0,
-			-1.0,
-			0.0,
-			1.0, // Back face
+			-halfX, -halfY, -halfZ,	+0.0, +0.0, -1.0,	1.0, 1.0,	// Back face
+			-halfX, +halfY, -halfZ,	+0.0, +0.0, -1.0,	1.0, 0.0,	// Back face
+			+halfX, +halfY, -halfZ,	+0.0, +0.0, -1.0,	0.0, 0.0,	// Back face
+			+halfX, -halfY, -halfZ,	+0.0, +0.0, -1.0,	0.0, 1.0,	// Back face
 
 			// Position             // Normal           // Texture
-			-halfX,
-			+halfY,
-			-halfZ,
-			+0.0,
-			+1.0,
-			+0.0,
-			0.0,
-			0.0, // Top face
-			-halfX,
-			+halfY,
-			+halfZ,
-			+0.0,
-			+1.0,
-			+0.0,
-			0.0,
-			1.0, // Top face
-			+halfX,
-			+halfY,
-			+halfZ,
-			+0.0,
-			+1.0,
-			+0.0,
-			1.0,
-			1.0, // Top face
-			+halfX,
-			+halfY,
-			-halfZ,
-			+0.0,
-			+1.0,
-			+0.0,
-			1.0,
-			0.0, // Top face
+			-halfX, +halfY, -halfZ, +0.0, +1.0, +0.0, 0.0, 0.0, // Top face
+			-halfX, +halfY, +halfZ, +0.0, +1.0, +0.0, 0.0, 1.0, // Top face
+			+halfX, +halfY, +halfZ, +0.0, +1.0, +0.0, 1.0, 1.0, // Top face
+			+halfX, +halfY, -halfZ, +0.0, +1.0, +0.0, 1.0, 0.0, // Top face
 
 			// Position             // Normal           // Texture
-			-halfX,
-			-halfY,
-			-halfZ,
-			+0.0,
-			-1.0,
-			+0.0,
-			0.0,
-			1.0, // Bottom face
-			+halfX,
-			-halfY,
-			-halfZ,
-			+0.0,
-			-1.0,
-			+0.0,
-			1.0,
-			1.0, // Bottom face
-			+halfX,
-			-halfY,
-			+halfZ,
-			+0.0,
-			-1.0,
-			+0.0,
-			1.0,
-			0.0, // Bottom face
-			-halfX,
-			-halfY,
-			+halfZ,
-			+0.0,
-			-1.0,
-			+0.0,
-			0.0,
-			0.0, // Bottom face
+			-halfX, -halfY, -halfZ, +0.0, -1.0, +0.0, 0.0, 1.0, // Bottom face
+			+halfX, -halfY, -halfZ, +0.0, -1.0, +0.0, 1.0, 1.0, // Bottom face
+			+halfX, -halfY, +halfZ, +0.0, -1.0, +0.0, 1.0, 0.0, // Bottom face
+			-halfX, -halfY, +halfZ, +0.0, -1.0, +0.0, 0.0, 0.0, // Bottom face
 
 			// Position             // Normal           // Texture
-			+halfX,
-			-halfY,
-			-halfZ,
-			+1.0,
-			+0.0,
-			+0.0,
-			1.0,
-			1.0, // Right face
-			+halfX,
-			+halfY,
-			-halfZ,
-			+1.0,
-			+0.0,
-			+0.0,
-			1.0,
-			0.0, // Right face
-			+halfX,
-			+halfY,
-			+halfZ,
-			+1.0,
-			+0.0,
-			+0.0,
-			0.0,
-			0.0, // Right face
-			+halfX,
-			-halfY,
-			+halfZ,
-			+1.0,
-			+0.0,
-			+0.0,
-			0.0,
-			1.0, // Right face
+			+halfX, -halfY, -halfZ, +1.0, +0.0, +0.0, 1.0, 1.0, // Right face
+			+halfX, +halfY, -halfZ, +1.0, +0.0, +0.0, 1.0, 0.0, // Right face
+			+halfX, +halfY, +halfZ, +1.0, +0.0, +0.0, 0.0, 0.0, // Right face
+			+halfX, -halfY, +halfZ, +1.0, +0.0, +0.0, 0.0, 1.0, // Right face
 
 			// Position             // Normal           // Texture
-			-halfX,
-			-halfY,
-			-halfZ,
-			-1.0,
-			+0.0,
-			+0.0,
-			0.0,
-			1.0, // Left face
-			-halfX,
-			-halfY,
-			+halfZ,
-			-1.0,
-			+0.0,
-			+0.0,
-			1.0,
-			1.0, // Left face
-			-halfX,
-			+halfY,
-			+halfZ,
-			-1.0,
-			+0.0,
-			+0.0,
-			1.0,
-			0.0, // Left face
-			-halfX,
-			+halfY,
-			-halfZ,
-			-1.0,
-			+0.0,
-			+0.0,
-			0.0,
-			0.0 // Left face
+			-halfX, -halfY, -halfZ,	-1.0, +0.0, +0.0,	0.0, 1.0,	// Left face
+			-halfX, -halfY, +halfZ,	-1.0, +0.0, +0.0,	1.0, 1.0,	// Left face
+			-halfX, +halfY, +halfZ,	-1.0, +0.0, +0.0,	1.0, 0.0,	// Left face
+			-halfX, +halfY, -halfZ,	-1.0, +0.0, +0.0,	0.0, 0.0	// Left face
 		];
 	}
 

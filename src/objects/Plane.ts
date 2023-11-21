@@ -25,40 +25,13 @@ export class Plane extends Object3d {
 		const halfX: number = this.size.X / 2;
 		const halfY: number = this.size.Y / 2;
 
+		// prettier-ignore
 		return [
-			// Position             // Normal           // Texture
-			-halfX,
-			0,
-			-halfY,
-			+0.0,
-			+1.0,
-			+0.0,
-			0.0,
-			0.0, // Top face
-			-halfX,
-			0,
-			+halfY,
-			+0.0,
-			+1.0,
-			+0.0,
-			0.0,
-			1.0, // Top face
-			+halfX,
-			0,
-			+halfY,
-			+0.0,
-			+1.0,
-			+0.0,
-			1.0,
-			1.0, // Top face
-			+halfX,
-			0,
-			-halfY,
-			+0.0,
-			+1.0,
-			+0.0,
-			1.0,
-			0.0 // Top face
+			// Position			// Normal			// Texture
+			-halfX, 0, -halfY,	+0.0, +1.0, +0.0,	0.0, 0.0,	// Top face
+			-halfX, 0, +halfY,	+0.0, +1.0, +0.0,	0.0, 1.0,	// Top face
+			+halfX, 0, +halfY,	+0.0, +1.0, +0.0,	1.0, 1.0,	// Top face
+			+halfX, 0, -halfY,	+0.0, +1.0, +0.0,	1.0, 0.0	// Top face
 		];
 	}
 
